@@ -5,8 +5,12 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "eks-terraform-tfstate-demo"
-    key = "services/eks/terraform.tfstate"
+    key    = "services/eks/terraform.tfstate"
+    region = "us-east-1"
   }
+}
+
+terraform {
   required_version = "1.5.5"
 
   required_providers {

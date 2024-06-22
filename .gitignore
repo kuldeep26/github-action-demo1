@@ -1,0 +1,4 @@
+.terraform/
+*.tfstate
+*.lock.hcl
+secret_rotation.zip
