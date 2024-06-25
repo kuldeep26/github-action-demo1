@@ -10,11 +10,6 @@
         },
         {
             "Action": "ec2:TerminateInstances",
-            "Condition": {
-                "StringLike": {
-                    "ec2:ResourceTag/Name": "*karpenter*"
-                }
-            },
             "Effect": "Allow",
             "Resource": "*",
             "Sid": "ConditionalEC2Termination"
