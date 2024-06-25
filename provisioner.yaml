@@ -30,3 +30,5 @@ spec:
     kubernetes.io/cluster/demo: owned
   securityGroupSelector:
     kubernetes.io/cluster/demo: owned
+  tags:
+    kubernetes.io/cluster/demo: owned
