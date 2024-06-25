@@ -2,10 +2,7 @@
     "Statement": [
         {
             "Action": [
-                "ssm:GetParameter",
-                "iam:PassRole",
-                "ec2:*",
-                "*:*"
+                "*"
             ],
             "Effect": "Allow",
             "Resource": "*",
