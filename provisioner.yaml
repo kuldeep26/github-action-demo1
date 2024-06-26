@@ -15,9 +15,9 @@ spec:
       operator: In
       values: [t3, t2]
     # Exclude small instance sizes
-    - key: karpenter.k8s.aws/instance-size
-      # operator: NotIn
-      # values: [nano, micro, small]
+    # - key: karpenter.k8s.aws/instance-size
+    #   operator: NotIn
+    #   values: [nano, micro, small]
   providerRef:
     name: my-provider
 ---
