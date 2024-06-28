@@ -36,7 +36,7 @@ resource "aws_eks_node_group" "private-nodes" {
 
   subnet_ids = [
     "subnet-01a01760e2b9c1efb",
-    "subnet-0fe0c5ad99ce88ab5",
+    "subnet-08c855bd1011b3314",
   ]
 
   capacity_type  = "ON_DEMAND"
