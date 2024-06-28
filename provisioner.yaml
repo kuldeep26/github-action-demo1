@@ -13,7 +13,10 @@ spec:
     # Include general purpose instance families
     - key: karpenter.k8s.aws/instance-family
       operator: In
-      values: [t, m, c]
+      values: [t2, t3]
+    - key: karpenter.k8s.aws/instance-size
+      operator: In
+      values: ["small", "medium", "large"]
     # Exclude small instance sizes
     # - key: karpenter.k8s.aws/instance-size
     #   operator: NotIn
