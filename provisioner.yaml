@@ -16,7 +16,7 @@ spec:
       values: [t2, t3]
     - key: karpenter.k8s.aws/instance-size
       operator: In
-      values: ["small", "medium", "large"]
+      values: ["medium"]
     # Exclude small instance sizes
     # - key: karpenter.k8s.aws/instance-size
     #   operator: NotIn
