@@ -65,7 +65,7 @@ resource "kubernetes_cluster_role_binding" "read_only_binding" {
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
-    kind      = "Role"
+    kind      = "ClusterRole"
     name      = kubernetes_role.read_only.metadata[0].name
   }
 
@@ -78,7 +78,7 @@ resource "kubernetes_cluster_role_binding" "read_only_binding" {
 
 resource "kubernetes_cluster_role" "admin" {
   metadata {
-    name = "admin"
+    name = "admin-role"
   }
 
   rule {
