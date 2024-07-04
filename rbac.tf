@@ -2,16 +2,17 @@
 #for error related to config-map already present
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.eks.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.eks.token
 }
 
-data "aws_eks_cluster" "eks" {
-  name = "demo"
-}
+##Commenting as below block needed when cluster already running
+# data "aws_eks_cluster" "eks" {
+#   name = "demo"
+# }
 
 data "aws_eks_cluster_auth" "eks" {
-  name = data.aws_eks_cluster.eks.name
+  name = aws_eks_cluster.cluster.name
 }
 
 resource "kubernetes_config_map" "aws_auth" {
