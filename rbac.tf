@@ -45,10 +45,10 @@ resource "kubernetes_config_map" "aws_auth" {
 
 ##### Group and Roles to read and admin access ###
 
-resource "kubernetes_role" "read_only" {
+resource "kubernetes_cluster_role" "read_only" {
   metadata {
     name      = "read-only"
-    namespace = "default"
+#    namespace = "default"
   }
 
   rule {
