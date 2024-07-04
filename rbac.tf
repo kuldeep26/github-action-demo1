@@ -48,7 +48,7 @@ resource "kubernetes_config_map" "aws_auth" {
 resource "kubernetes_role" "read_only" {
   metadata {
     name      = "read-only"
-#    namespace = "default"
+    namespace = "default"
   }
 
   rule {
