@@ -22,7 +22,7 @@ resource "kubernetes_config_map" "aws_auth" {
     mapRoles = yamlencode([
       {
         groups   = ["system:bootstrappers", "system:nodes"]
-        rolearn  = "arn:aws:iam::211125308281:role/eks-node-group-eks"
+        rolearn  = aws_iam_role.nodes.arn
         username = "system:node:{{EC2PrivateDNSName}}"
       }
     #   {
