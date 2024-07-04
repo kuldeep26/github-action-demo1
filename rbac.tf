@@ -37,7 +37,7 @@ resource "kubernetes_config_map" "aws_auth" {
       {
         userarn  = "arn:aws:iam::211125308281:user/test"
         username = "test"
-        groups   = ["system:masters", "read-only"]
+        groups   = ["read-only"]
       }
     ])
   }
@@ -70,8 +70,8 @@ resource "kubernetes_cluster_role_binding" "read_only_binding" {
   }
 
   subject {
-    kind      = "User"
-    name      = "test"
+    kind      = "Group"
+    name      = "read-only"
     api_group = "rbac.authorization.k8s.io"
   }
 }
