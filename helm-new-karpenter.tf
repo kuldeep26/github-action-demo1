@@ -19,7 +19,7 @@ data "aws_ecrpublic_authorization_token" "token" {
 
 resource "helm_release" "karpenter" {
   name             = "karpenter"
-  repository       = "oci://public.ecr.aws/karpenter/karpenter"
+  repository       = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name //create resource
   repository_password = data.aws_ecrpublic_authorization_token.token.password  //create resource
   chart            = "karpenter"
