@@ -36,7 +36,7 @@ resource "kubernetes_config_map" "aws_auth" {
     ])
     mapUsers = yamlencode([
       {
-        userarn  = "arn:aws:iam::211125308281:user/test"
+        userarn  = "arn:aws:iam::938133920019:user/test"
         username = "test"
         groups   = ["read-only"]
       }
@@ -48,8 +48,8 @@ resource "kubernetes_config_map" "aws_auth" {
 
 resource "kubernetes_cluster_role" "read_only" {
   metadata {
-    name      = "read-only"
-#    namespace = "default"
+    name = "read-only"
+    #    namespace = "default"
   }
 
   rule {
