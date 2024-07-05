@@ -15,7 +15,6 @@ data "aws_availability_zones" "available" {}
 
 # This data source can only be used in the us-east-1 region.
 data "aws_ecrpublic_authorization_token" "token" {
-  provider = "us-east-1"
 }
 
 resource "helm_release" "karpenter" {
