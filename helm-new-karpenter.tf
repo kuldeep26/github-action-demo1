@@ -11,9 +11,18 @@ provider "helm" {
   }
 }
 
+data "aws_availability_zones" "available" {}
+
+# This data source can only be used in the us-east-1 region.
+data "aws_ecrpublic_authorization_token" "token" {
+  provider = "us-east-1"
+}
+
 resource "helm_release" "karpenter" {
   name             = "karpenter"
   repository       = "oci://public.ecr.aws/karpenter/karpenter"
+  repository_username = data.aws_ecrpublic_authorization_token.token.user_name //create resource
+  repository_password = data.aws_ecrpublic_authorization_token.token.password  //create resource
   chart            = "karpenter"
   version          = "0.37.0"
   namespace        = "karpenter"
