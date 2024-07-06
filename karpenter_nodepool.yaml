@@ -1,0 +1,25 @@
+apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  template:
+    metadata:
+      labels:
+        intent: apps
+    spec:
+      nodeClassRef:
+        name: default
+      requirements:
+        - key: karpenter.k8s.aws/instance-family
+          operator: In
+          values: ["t2"]
+        - key: karpenter.k8s.aws/instance-size
+          operator: NotIn
+          values: ["medium"]
+  limits:
+    cpu: 1000
+    memory: 1000Gi
+  disruption:
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 30s
