@@ -18,18 +18,18 @@ data "aws_ecrpublic_authorization_token" "token" {
 }
 
 resource "helm_release" "karpenter" {
-  name             = "karpenter"
-  repository       = "oci://public.ecr.aws/karpenter"
+  name                = "karpenter"
+  repository          = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name //create resource
   repository_password = data.aws_ecrpublic_authorization_token.token.password  //create resource
-  chart            = "karpenter"
-  version          = "0.37.0"
-  namespace        = "karpenter"
-  create_namespace = true
+  chart               = "karpenter"
+  version             = "0.37.0"
+  namespace           = "karpenter"
+  create_namespace    = true
 
   set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.karpenter_controller.arn
+    value = module.karpenter.irsa_arn
   }
 
   set {
@@ -44,45 +44,33 @@ resource "helm_release" "karpenter" {
 
   set {
     name  = "aws.defaultInstanceProfile"
-    value = aws_iam_instance_profile.karpenter.name
+    value = module.karpenter.instance_profile_name
   }
-}
 
-data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:karpenter:karpenter"]
-    }
-
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
-      type        = "Federated"
-    }
+  # We will be using SQS queue name which we created previously with Karpenter module
+  set {
+    name  = "settings.aws.interruptionQueueName"
+    value = module.karpenter.queue_name
   }
+
 }
 
-resource "aws_iam_role" "karpenter_controller" {
-  assume_role_policy = data.aws_iam_policy_document.karpenter_controller_assume_role_policy.json
-  name               = "karpenter-controller"
-}
+# This module creates needed IAM resources which we will use when deploying Karpenter resources with Helm
+module "karpenter" {
+  version = "v19.16.0"
+  source  = "terraform-aws-modules/eks/aws//modules/karpenter"
 
-resource "aws_iam_policy" "karpenter_controller" {
-  policy = file("./controller-trust-policy.json")
-  name   = "KarpenterController"
-}
+  cluster_name = module.eks_cluster.cluster_name
 
-resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" {
-  role       = aws_iam_role.karpenter_controller.name
-  policy_arn = aws_iam_policy.karpenter_controller.arn
-}
+  irsa_oidc_provider_arn          = module.eks_cluster.oidc_provider_arn
+  irsa_namespace_service_accounts = ["karpenter:karpenter"]
 
-resource "aws_iam_instance_profile" "karpenter" {
-  name = "KarpenterNodeInstanceProfile"
-  role = aws_iam_role.nodes.name
+  create_iam_role = false
+  iam_role_arn    = aws_iam_role.nodes.arn
+
+  policies = {
+    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  }
+
 }
 
