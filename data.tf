@@ -1,5 +1,5 @@
 data "aws_iam_openid_connect_provider" "example" {
-  arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/${aws_eks_cluster.cluster.id}"
+  url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
 
 data "aws_caller_identity" "current" {}
