@@ -1,10 +1,10 @@
-# resource "aws_eks_addon" "vpc_cni" {
-#   cluster_name  = aws_eks_cluster.cluster.name
-#   addon_name    = "vpc-cni"
-#   addon_version = "v1.18.2-eksbuild.1"
-#   #  resolve_conflicts_on_update = "PRESERVE"
-#   service_account_role_arn = aws_iam_role.vpc_cni_role.arn
-# }
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "vpc-cni"
+  addon_version = "v1.18.2-eksbuild.1"
+  #  resolve_conflicts_on_update = "PRESERVE"
+  service_account_role_arn = aws_iam_role.vpc_cni.arn
+}
 
 # resource "aws_eks_addon" "kube-proxy" {
 #   cluster_name  = aws_eks_cluster.cluster.name
@@ -29,26 +29,31 @@
 
 ////// VPC-CNI Role ///////////
 # IAM Policy for VPC CNI Role
-resource "aws_iam_role_policy_attachment" "vpc_cni_policy_attachment" {
-  role       = aws_iam_role.vpc_cni_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+data "aws_iam_policy_document" "example_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_iam_openid_connect_provider.example.url, "https://", "")}:sub"
+      values   = ["system:serviceaccount:kube-system:aws-node"]
+    }
+
+    principals {
+      identifiers = [aws_iam_openid_connect_provider.example.arn]
+      type        = "Federated"
+    }
+  }
 }
 
-# IAM Role for VPC CNI Add-on
-resource "aws_iam_role" "vpc_cni_role" {
-  name = "vpc-cni-role"
+resource "aws_iam_role" "vpc_cni" {
+  assume_role_policy = data.aws_iam_policy_document.example_assume_role_policy.json
+  name               = "vpc-cni-role"
+}
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          Service = "eks.amazonaws.com"
-        },
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
+resource "aws_iam_role_policy_attachment" "example" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.vpc_cni.name
 }
 
