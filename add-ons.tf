@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "example_assume_role_policy" {
     }
 
     principals {
-      identifiers = [data.aws_iam_openid_connect_provider.example.url.arn]
+      identifiers = [data.aws_iam_openid_connect_provider.example.arn]
       type        = "Federated"
     }
   }
