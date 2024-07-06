@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "example_assume_role_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "${replace("${aws_eks_cluster.example.identity[0].oidc[0].issuer}", "https://", "")}:sub"
+      variable = "${replace("${aws_eks_cluster.cluster.identity[0].oidc[0].issuer}", "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:aws-node"]
     }
 
