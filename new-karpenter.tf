@@ -41,7 +41,7 @@ resource "kubernetes_manifest" "karpenter_node_template" {
   # With a kubernetes_manifest resource, you can achieve this by using the computed_fields meta-attribute.
   computed_fields = ["spec.requirements", "spec.limits"]
   manifest = yamldecode(<<-EOF
-    apiVersion: karpenter.k8s.aws/v1alpha1
+    apiVersion: karpenter.sh/v1alpha5
     kind: AWSNodeTemplate
     metadata:
       name: default
