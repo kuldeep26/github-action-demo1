@@ -62,7 +62,7 @@ module "karpenter" {
 
   cluster_name = module.eks_cluster.cluster_name
 
-  irsa_oidc_provider_arn          = module.eks_cluster.oidc_provider_arn
+  irsa_oidc_provider_arn          = data.aws_iam_openid_connect_provider.example.arn
   irsa_namespace_service_accounts = ["karpenter:karpenter"]
 
   create_iam_role = false
@@ -72,5 +72,9 @@ module "karpenter" {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
 
+}
+
+data "aws_iam_openid_connect_provider" "example" {
+  url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
 
