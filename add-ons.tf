@@ -36,12 +36,12 @@ data "aws_iam_policy_document" "example_assume_role_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "${replace("${aws_eks_cluster.cluster.issuer}", "https://", "")}:sub"
+      variable = "${replace("${data.aws_iam_openid_connect_provider.example.url}", "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:aws-node"]
     }
 
     principals {
-      identifiers = [aws_iam_openid_connect_provider.example.arn]
+      identifiers = [data.aws_iam_openid_connect_provider.example.url.arn]
       type        = "Federated"
     }
   }
