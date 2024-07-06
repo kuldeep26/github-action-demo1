@@ -17,19 +17,38 @@ data "aws_availability_zones" "available" {}
 data "aws_ecrpublic_authorization_token" "token" {
 }
 
+resource "helm_release" "karpenter_crd" {
+  depends_on = [aws_eks_cluster.cluster]
+  namespace        = "karpenter"
+  create_namespace = true
+
+  name                = "karpenter-crd"
+  repository          = "oci://public.ecr.aws/karpenter"
+  chart               = "karpenter-crd"
+  version             = "v0.32.1"
+  replace             = true
+  force_update        = true
+
+}
+
 resource "helm_release" "karpenter" {
   name                = "karpenter"
   repository          = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name //create resource
   repository_password = data.aws_ecrpublic_authorization_token.token.password  //create resource
   chart               = "karpenter"
-  version             = "0.36.2"
+  version             = "v0.32.1"
   namespace           = "karpenter"
   create_namespace    = true
 
   set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = module.karpenter.oidc_provider_arn
+    value = module.karpenter.iam_role_arn
+  }
+
+  set {
+    name  = "serviceMonitor.enabled"
+    value = "True"
   }
 
   set {
@@ -51,6 +70,26 @@ resource "helm_release" "karpenter" {
   set {
     name  = "settings.aws.interruptionQueueName"
     value = module.karpenter.queue_name
+  }
+
+  set {
+    name  = "tolerations[0].key"
+    value = "system"
+  }
+
+  set {
+    name  = "tolerations[0].value"
+    value = "owned"
+  }
+
+  set {
+    name  = "tolerations[0].operator"
+    value = "Equal"
+  }
+
+  set {
+    name  = "tolerations[0].effect"
+    value = "NoSchedule"
   }
 
 }
