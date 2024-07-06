@@ -63,6 +63,7 @@ module "karpenter" {
   cluster_name = aws_eks_cluster.cluster.name
   node_iam_role_additional_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    AmazonEBSCSIDriverPolicy     = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   }
 
   irsa_oidc_provider_arn          = data.aws_iam_openid_connect_provider.example.arn
@@ -70,12 +71,6 @@ module "karpenter" {
 
   create_iam_role   = false
   node_iam_role_arn = aws_iam_role.nodes.arn
-
-  node_iam_role_additional_policies_policies = {
-    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-    AmazonEBSCSIDriverPolicy     = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  }
-
 }
 
 data "aws_iam_openid_connect_provider" "example" {
