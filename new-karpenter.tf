@@ -5,28 +5,51 @@ resource "kubernetes_manifest" "karpenter_provisioner" {
   # With a kubernetes_manifest resource, you can achieve this by using the computed_fields meta-attribute.
   computed_fields = ["spec.requirements", "spec.limits"]
   manifest = yamldecode(<<-EOF
-    apiVersion: karpenter.sh/v1alpha5
-    kind: Provisioner
+    apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  template:
     metadata:
-      name: default
+      labels:
+        intent: apps
     spec:
+      nodeClassRef:
+        name: default
+
       requirements:
         - key: karpenter.sh/capacity-type
           operator: In
-          values: ["on-demand"]
-        - key: "karpenter.k8s.aws/instance-family"
-          operator: In
-          values: ["t3"]
+          values: ["spot"]
         - key: karpenter.k8s.aws/instance-size
-          operator: In
-          values: ["medium"]
-      limits:
-        resources:
-          cpu: 1000
-      providerRef:
-        name: default
-      ttlSecondsAfterEmpty: 30
-  EOF
+          operator: NotIn
+          values: [nano, micro, small, medium, large]
+  limits:
+    cpu: 1000
+    memory: 1000Gi
+  disruption:
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 30s
+---
+apiVersion: karpenter.k8s.aws/v1beta1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  amiFamily: AL2
+  subnetSelectorTerms:          
+    - tags:
+        karpenter.sh/discovery: "eksspotworkshop"
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: "eksspotworkshop"
+  role: "Karpenter-eksspotworkshop"
+  tags:
+    Name: karpenter.sh/nodepool/default
+    NodeType: "karpenter-workshop"
+    IntentLabel: "apps"
+EOF
   )
 
   depends_on = [
