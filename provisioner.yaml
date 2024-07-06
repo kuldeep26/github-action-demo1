@@ -30,8 +30,8 @@ metadata:
   name: my-provider
 spec:
   subnetSelector:
-    kubernetes.io/cluster/demo: owned
+    karpenter.sh/discovery: demo
   securityGroupSelector:
-    kubernetes.io/cluster/demo: owned
+    karpenter.sh/discovery: demo
   tags:
-    kubernetes.io/cluster/demo: owned
+    karpenter.sh/discovery: demo
