@@ -73,6 +73,11 @@ resource "helm_release" "karpenter" {
   }
 
   set {
+    name  = "settings.featureGates.drift"
+    value = "True"
+  }
+
+  set {
     name  = "tolerations[0].key"
     value = "system"
   }
