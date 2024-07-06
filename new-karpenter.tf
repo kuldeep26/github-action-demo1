@@ -1,11 +1,7 @@
-# Creating a provisioner which will create additional nodes for unscheduled pods
 resource "kubernetes_manifest" "karpenter_provisioner" {
-  # Terraform by default doesn't tolerate values changing between configuration and apply results.
-  # Users are required to declare these tolerable exceptions explicitly.
-  # With a kubernetes_manifest resource, you can achieve this by using the computed_fields meta-attribute.
   computed_fields = ["spec.requirements", "spec.limits"]
   manifest = yamldecode(<<-EOF
-    apiVersion: karpenter.sh/v1beta1
+apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
   name: default
@@ -17,14 +13,13 @@ spec:
     spec:
       nodeClassRef:
         name: default
-
       requirements:
-        - key: karpenter.sh/capacity-type
+        - key: karpenter.k8s.aws/instance-family
           operator: In
-          values: ["spot"]
+          values: ["t2"]
         - key: karpenter.k8s.aws/instance-size
           operator: NotIn
-          values: [nano, micro, small, medium, large]
+          values: ["medium"]
   limits:
     cpu: 1000
     memory: 1000Gi
@@ -40,42 +35,16 @@ spec:
   amiFamily: AL2
   subnetSelectorTerms:          
     - tags:
-        karpenter.sh/discovery: "eksspotworkshop"
+        karpenter.sh/discovery: "${aws_eks_cluster.cluster.name}"
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: "eksspotworkshop"
+        karpenter.sh/discovery: "${aws_eks_cluster.cluster.name}"
   role: "Karpenter-eksspotworkshop"
   tags:
     Name: karpenter.sh/nodepool/default
     NodeType: "karpenter-workshop"
     IntentLabel: "apps"
 EOF
-  )
-
-  depends_on = [
-    helm_release.karpenter
-  ]
-}
-
-# Creating a Node template, which will be used for Node configuration in AWS side
-resource "kubernetes_manifest" "karpenter_node_template" {
-  # Terraform by default doesn't tolerate values changing between configuration and apply results.
-  # Users are required to declare these tolerable exceptions explicitly.
-  # With a kubernetes_manifest resource, you can achieve this by using the computed_fields meta-attribute.
-  computed_fields = ["spec.requirements", "spec.limits"]
-  manifest = yamldecode(<<-EOF
-    apiVersion: karpenter.sh/v1alpha5
-    kind: AWSNodeTemplate
-    metadata:
-      name: default
-    spec:
-      subnetSelector:
-        karpenter.sh/discovery: ${aws_eks_cluster.cluster.name}
-      securityGroupSelector:
-        karpenter.sh/discovery: ${aws_eks_cluster.cluster.name}
-      tags:
-        karpenter.sh/discovery: ${aws_eks_cluster.cluster.name}
-  EOF
   )
 
   depends_on = [
