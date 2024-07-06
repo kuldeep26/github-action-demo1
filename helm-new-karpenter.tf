@@ -57,19 +57,23 @@ resource "helm_release" "karpenter" {
 
 # This module creates needed IAM resources which we will use when deploying Karpenter resources with Helm
 module "karpenter" {
-  version = "v19.16.0"
+  version = "v20.17.2"
   source  = "terraform-aws-modules/eks/aws//modules/karpenter"
 
   cluster_name = aws_eks_cluster.cluster.name
+  node_iam_role_additional_policies = {
+    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  }
 
   irsa_oidc_provider_arn          = data.aws_iam_openid_connect_provider.example.arn
   irsa_namespace_service_accounts = ["karpenter:karpenter"]
 
-  create_iam_role = false
-  iam_role_arn    = aws_iam_role.nodes.arn
+  create_iam_role   = false
+  node_iam_role_arn = aws_iam_role.nodes.arn
 
-  policies = {
+  node_iam_role_additional_policies_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    AmazonEBSCSIDriverPolicy     = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   }
 
 }
