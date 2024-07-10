@@ -30,8 +30,9 @@ metadata:
   name: my-provider
 spec:
   subnetSelector:
-    karpenter.sh/discovery: demo
+#    karpenter.sh/discovery: demo
+    name: private
   securityGroupSelector:
-    karpenter.sh/discovery: demo
+    name: private
   tags:
-    karpenter.sh/discovery: demo
+    name: private
