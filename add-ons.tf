@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "example_assume_role_policy" {
     }
 
     principals {
-      identifiers = [data.aws_iam_openid_connect_provider.example.arn]
+      identifiers = [aws_iam_openid_connect_provider.eks.arn]
       type        = "Federated"
     }
   }
@@ -85,7 +85,7 @@ resource "aws_iam_role_policy_attachment" "example" {
 #     }
 
 #     principals {
-#       identifiers = [data.aws_iam_openid_connect_provider.example.arn]
+#       identifiers = [aws_iam_openid_connect_provider.eks.arn]
 #       type        = "Federated"
 #     }
 #   }
