@@ -17,7 +17,7 @@ resource "helm_release" "karpenter" {
   repository_password = data.aws_ecrpublic_authorization_token.token.password  //create resource
   chart               = "karpenter"
   version             = "0.37.0" //update version
-  wait                = false
+  wait                = true
 
   set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
@@ -26,12 +26,12 @@ resource "helm_release" "karpenter" {
 
   set {
     name  = "clusterName"
-    value =  aws_eks_cluster.cluster.id
+    value = aws_eks_cluster.cluster.id
   }
 
   set {
     name  = "clusterEndpoint"
-    value =  aws_eks_cluster.cluster.endpoint
+    value = aws_eks_cluster.cluster.endpoint
   }
 
   set {
@@ -40,9 +40,7 @@ resource "helm_release" "karpenter" {
   }
 
   depends_on = [aws_eks_node_group.private-nodes]
-
 }
-
 
 locals {
   karpenter_provisioner_manifest = <<YAML
@@ -93,7 +91,6 @@ spec:
   tags:
     karpenter.sh/discovery: ${aws_eks_cluster.cluster.name}
 YAML
-
 }
 
 resource "kubernetes_manifest" "karpenter_provisioner" {
