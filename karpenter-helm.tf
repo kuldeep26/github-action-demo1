@@ -75,7 +75,7 @@ spec:
 YAML
 
   krpenter_node_class_manifest = <<YAML
-apiVersion: karpenter.sh/v1beta1
+apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
   name: default
@@ -98,8 +98,10 @@ YAML
 
 resource "kubernetes_manifest" "karpenter_provisioner" {
   manifest = yamldecode(local.karpenter_provisioner_manifest)
+  depends_on = [helm_release.karpenter]
 }
 
 resource "kubernetes_manifest" "Karpenter_node_class" {
   manifest = yamldecode(local.krpenter_node_class_manifest)
+  depends_on = [helm_release.karpenter]
 }
