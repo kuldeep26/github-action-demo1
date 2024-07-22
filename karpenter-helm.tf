@@ -75,7 +75,7 @@ spec:
 YAML
 
   krpenter_node_class_manifest = <<YAML
-apiVersion: karpenter.k8s.aws/v1beta1
+apiVersion: karpenter.sh/v1beta1
 kind: EC2NodeClass
 metadata:
   name: default
