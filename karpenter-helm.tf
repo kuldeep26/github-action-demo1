@@ -8,15 +8,25 @@ data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
 
+# Define the CRD installation as a local-exec provisioner
+resource "null_resource" "install_karpenter_crds" {
+  provisioner "local-exec" {
+    command = <<EOT
+    kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.sh_nodepools.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.k8s.aws_ec2nodeclasses.yaml
+    EOT
+  }
+}
 
+# Install Karpenter Helm chart
 resource "helm_release" "karpenter" {
   namespace           = "kube-system"
   name                = "karpenter"
   repository          = "oci://public.ecr.aws/karpenter"
-  repository_username = data.aws_ecrpublic_authorization_token.token.user_name //create resource
-  repository_password = data.aws_ecrpublic_authorization_token.token.password  //create resource
+  repository_username = data.aws_ecrpublic_authorization_token.token.user_name
+  repository_password = data.aws_ecrpublic_authorization_token.token.password
   chart               = "karpenter"
-  version             = "0.37.0" //update version
+  version             = "0.37.0"
   wait                = true
 
   set {
@@ -39,7 +49,7 @@ resource "helm_release" "karpenter" {
     value = aws_iam_instance_profile.karpenter.name
   }
 
-  depends_on = [aws_eks_node_group.private-nodes]
+  depends_on = [aws_eks_node_group.private-nodes, null_resource.install_karpenter_crds]
 }
 
 locals {
@@ -72,7 +82,7 @@ spec:
     consolidateAfter: 30s
 YAML
 
-  krpenter_node_class_manifest = <<YAML
+  karpenter_node_class_manifest = <<YAML
 apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
@@ -98,7 +108,7 @@ resource "kubernetes_manifest" "karpenter_provisioner" {
   depends_on = [helm_release.karpenter]
 }
 
-resource "kubernetes_manifest" "Karpenter_node_class" {
-  manifest = yamldecode(local.krpenter_node_class_manifest)
+resource "kubernetes_manifest" "karpenter_node_class" {
+  manifest = yamldecode(local.karpenter_node_class_manifest)
   depends_on = [helm_release.karpenter]
 }
