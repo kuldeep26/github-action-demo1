@@ -8,15 +8,15 @@ data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
 
-# Define the CRD installation as a local-exec provisioner
-# resource "null_resource" "install_karpenter_crds" {
-#   provisioner "local-exec" {
-#     command = <<EOT
-#     kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.sh_nodepools.yaml
-#     kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.k8s.aws_ec2nodeclasses.yaml
-#     EOT
-#   }
-# }
+#Define the CRD installation as a local-exec provisioner
+resource "null_resource" "install_karpenter_crds" {
+  provisioner "local-exec" {
+    command = <<EOT
+    kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.sh_nodepools.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.k8s.aws_ec2nodeclasses.yaml
+    EOT
+  }
+}
 
 # Install Karpenter Helm chart
 resource "helm_release" "karpenter" {
