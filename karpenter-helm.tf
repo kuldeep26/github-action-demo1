@@ -103,12 +103,12 @@ spec:
 YAML
 }
 
-resource "kubernetes_manifest" "karpenter_provisioner" {
-  manifest   = yamldecode(local.karpenter_provisioner_manifest)
-  depends_on = [helm_release.karpenter]
-}
+# resource "kubernetes_manifest" "karpenter_provisioner" {
+#   manifest   = yamldecode(local.karpenter_provisioner_manifest)
+#   depends_on = [helm_release.karpenter]
+# }
 
-resource "kubernetes_manifest" "karpenter_node_class" {
-  manifest   = yamldecode(local.karpenter_node_class_manifest)
-  depends_on = [helm_release.karpenter]
-}
+# resource "kubernetes_manifest" "karpenter_node_class" {
+#   manifest   = yamldecode(local.karpenter_node_class_manifest)
+#   depends_on = [helm_release.karpenter]
+# }
