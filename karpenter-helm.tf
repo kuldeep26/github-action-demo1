@@ -9,14 +9,14 @@ data "aws_ecrpublic_authorization_token" "token" {
 }
 
 # Define the CRD installation as a local-exec provisioner
-resource "null_resource" "install_karpenter_crds" {
-  provisioner "local-exec" {
-    command = <<EOT
-    kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.sh_nodepools.yaml
-    kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.k8s.aws_ec2nodeclasses.yaml
-    EOT
-  }
-}
+# resource "null_resource" "install_karpenter_crds" {
+#   provisioner "local-exec" {
+#     command = <<EOT
+#     kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.sh_nodepools.yaml
+#     kubectl apply -f https://raw.githubusercontent.com/aws/karpenter/main/pkg/apis/crds/karpenter.k8s.aws_ec2nodeclasses.yaml
+#     EOT
+#   }
+# }
 
 # Install Karpenter Helm chart
 resource "helm_release" "karpenter" {
@@ -49,7 +49,7 @@ resource "helm_release" "karpenter" {
     value = aws_iam_instance_profile.karpenter.name
   }
 
-  depends_on = [aws_eks_node_group.private-nodes, null_resource.install_karpenter_crds]
+  depends_on = [aws_eks_node_group.private-nodes]
 }
 
 locals {
