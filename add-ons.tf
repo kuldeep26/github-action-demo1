@@ -22,9 +22,9 @@ resource "aws_eks_addon" "kube-proxy" {
 # }
 
 resource "aws_eks_addon" "core-dns" {
-  cluster_name  = aws_eks_cluster.cluster.name
-  addon_name    = "coredns"
-  addon_version = "v1.11.1-eksbuild.9"
+  cluster_name                = aws_eks_cluster.cluster.name
+  addon_name                  = "coredns"
+  addon_version               = "v1.11.1-eksbuild.9"
   resolve_conflicts_on_create = "OVERWRITE"
   configuration_values = jsonencode({
     replicaCount = 4
