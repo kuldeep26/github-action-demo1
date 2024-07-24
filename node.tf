@@ -35,8 +35,8 @@ resource "aws_eks_node_group" "private-nodes" {
   node_role_arn   = aws_iam_role.nodes.arn
 
   subnet_ids = [
-    "subnet-02a3ef7a0dc085ae3",
-    "subnet-06ed5c3df286bded0",
+    "subnet-0998885a5e1edf3b6",
+    "subnet-01af60f04d0edd50b",
   ]
 
   capacity_type  = "ON_DEMAND"
