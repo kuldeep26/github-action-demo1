@@ -32,6 +32,11 @@ resource "kubernetes_config_map" "aws_auth" {
         groups   = ["system:bootstrappers", "system:nodes"]
         rolearn  = aws_iam_role.nodes.arn
         username = "system:node:{{EC2PrivateDNSName}}"
+      },
+      {
+        groups   = ["system:bootstrappers", "system:nodes"]
+        rolearn  = aws_iam_role.karpenter_controller.arn
+        username = "system:node:{{EC2PrivateDNSName}}"
       }
       #   {
       #     groups   = ["system:masters"]
