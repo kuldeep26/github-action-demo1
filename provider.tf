@@ -21,6 +21,12 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.6"
     }
+    http = {
+      source = "hashicorp/http"
+      #version = "2.1.0"
+      #version = "~> 2.1"
+      version = "~> 3.3"
+    }
     kubectl = {
       source  = "alekc/kubectl"
       version = ">= 2.0.2"
