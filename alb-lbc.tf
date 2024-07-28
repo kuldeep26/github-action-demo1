@@ -7,7 +7,7 @@ resource "helm_release" "loadbalancer_controller" {
     aws_eks_node_group.private-nodes,
     aws_eks_addon.core-dns
   ]
-  name       = "aws-load-balancer-controller"
+  name = "aws-load-balancer-controller"
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
@@ -38,7 +38,7 @@ resource "helm_release" "loadbalancer_controller" {
 
   set {
     name  = "vpcId"
-    value = "vpc-0b83ae596f6447efe"
+    value = "vpc-0bbff08ce7f1e5999"
   }
 
   set {

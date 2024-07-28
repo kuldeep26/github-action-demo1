@@ -8,52 +8,86 @@ data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
 
-resource "helm_release" "karpenter_crd" {
-  #  depends_on = [module.eks]
-  namespace = "kube-system"
-  #  create_namespace = true
+# resource "helm_release" "karpenter_crd" {
+#   #  depends_on = [module.eks]
+#   namespace = "kube-system"
+#   #  create_namespace = true
 
-  name         = "karpenter-crd"
-  repository   = "oci://public.ecr.aws/karpenter"
-  chart        = "karpenter-crd"
-  version      = "v0.32.1"
-  replace      = true
-  force_update = true
+#   name         = "karpenter-crd"
+#   repository   = "oci://public.ecr.aws/karpenter"
+#   chart        = "karpenter-crd"
+#   version      = "v0.32.1"
+#   replace      = true
+#   force_update = true
 
-}
+# }
 
 # Install Karpenter Helm chart
 resource "helm_release" "karpenter" {
+  depends_on = [
+    aws_eks_node_group.private-nodes,
+    kubernetes_service_account.karpenter_controller
+  ]
   namespace           = "kube-system"
   name                = "karpenter"
   repository          = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   repository_password = data.aws_ecrpublic_authorization_token.token.password
   chart               = "karpenter"
-  version             = "v0.32.1"
-
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.karpenter_controller.arn
-  }
-
-  set {
-    name  = "settings.aws.clusterName"
-    value = aws_eks_cluster.cluster.name
-  }
-
-  set {
-    name  = "settings.aws.clusterEndpoint"
-    value = aws_eks_cluster.cluster.endpoint
-  }
-
-  set {
-    name  = "settings.aws.defaultInstanceProfile"
-    value = aws_iam_instance_profile.karpenter.name
-  }
-
-  depends_on = [aws_eks_node_group.private-nodes]
+  version             = "0.37.0"
+  create_namespace    = true
+  values = [
+    <<-EOT
+    serviceAccount:
+      create: false
+      name: karpenter-controller
+      annotations:
+        eks.amazonaws.com/role-arn: ${aws_iam_role.karpenter_controller.arn}
+    settings:
+      clusterName: ${aws_eks_cluster.cluster.name}
+      clusterEndpoint: ${aws_eks_cluster.cluster.endpoint}
+    EOT
+  ]
 }
+
+# set {
+#   name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+#   value = aws_iam_role.karpenter_controller.arn
+# }
+
+# set {
+#   name  = "settings.aws.clusterName"
+#   value = aws_eks_cluster.cluster.name
+# }
+
+# set {
+#   name  = "settings.aws.clusterEndpoint"
+#   value = aws_eks_cluster.cluster.endpoint
+# }
+
+# set {
+#   name  = "settings.aws.defaultInstanceProfile"
+#   value = aws_iam_instance_profile.karpenter.name
+# }
+
+# Create Kubernetes Service Account
+resource "kubernetes_service_account" "karpenter_controller" {
+  metadata {
+    name      = "karpenter-controller"
+    namespace = "kube-system"
+    labels = {
+      "app.kubernetes.io/managed-by" = "Helm"
+    }
+    annotations = {
+      "eks.amazonaws.com/role-arn"     = aws_iam_role.karpenter_controller.arn
+      "meta.helm.sh/release-name"      = "karpenter"
+      "meta.helm.sh/release-namespace" = "kube-system"
+    }
+  }
+}
+
+
+
 
 locals {
   karpenter_provisioner_manifest = <<YAML
@@ -97,7 +131,7 @@ spec:
   role: ${aws_iam_role.nodes.arn}
   subnetSelectorTerms:
     - tags:
-       kubernetes.io/role/internal-elb: 1
+       karpenter.sh/discovery: ${aws_eks_cluster.cluster.name}
   securityGroupSelectorTerms:
     - tags:
         karpenter.sh/discovery: ${aws_eks_cluster.cluster.name}
