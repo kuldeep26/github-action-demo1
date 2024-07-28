@@ -29,6 +29,12 @@ jobs:
       with:
         terraform_version: "1.5.5"
 
+    - name: Terraform Initialize
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: terraform init
+
     - name: Set up kubectl
       uses: azure/setup-kubectl@v1
       with:
@@ -38,12 +44,6 @@ jobs:
       run: |
         aws eks update-kubeconfig --region us-east-1 --name demo
         kubectl get nodes
-        
-    - name: Terraform Initialize
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init
       
 #    - name: List S3 Buckets
       # env:
