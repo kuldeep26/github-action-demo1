@@ -34,8 +34,8 @@ resource "aws_eks_cluster" "cluster" {
     public_access_cidrs     = ["0.0.0.0/0"]
 
     subnet_ids = [
-      "subnet-0be8ddb9b2e0b3eb1",
-    "subnet-0191aea823584439c",
+      "subnet-0fb0cd77f77c1e95b",
+      "subnet-0fadb655f1032c0ce",
     ]
   }
 
