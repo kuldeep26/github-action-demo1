@@ -3,16 +3,8 @@ kind: Namespace
 metadata:
   name: knative-serving
 ---
-apiVersion: operator.knative.dev/v1beta1
+apiVersion: operator.knative.dev/v1alpha1
 kind: KnativeServing
 metadata:
   name: knative-serving
   namespace: knative-serving
-spec:
-  # ...
-  config:
-    istio:
-      local-gateways: |
-        - name: knative-local-gateway
-          namespace: knative-serving
-          service: custom-local-gateway.istio-system.svc.cluster.local
