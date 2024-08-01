@@ -1,4 +1,4 @@
-ata "aws_eks_cluster" "platform-compute-cluster" {
+data "aws_eks_cluster" "platform-compute-cluster" {
   name = "demo"
 }
 
