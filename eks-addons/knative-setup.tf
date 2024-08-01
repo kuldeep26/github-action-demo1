@@ -11,12 +11,6 @@ resource "terraform_data" "verify_knative_source_images" {
        EOF
   }
 
-  depends_on = [
-    helm_release.karpenter,
-    terraform_data.execute_karpenter_nodepool_manifest,
-  terraform_data.execute_karpenter_node_class_manifest]
-}
-
 # Knative istio controller Service Account
 resource "kubernetes_service_account" "knative_istio_controller_sa" {
   metadata {
