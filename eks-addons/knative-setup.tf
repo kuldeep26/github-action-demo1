@@ -28,7 +28,7 @@ resource "kubernetes_service_account" "knative_istio_controller_sa" {
 
 resource "terraform_data" "knative_operator_manifest" {
   triggers_replace = {
-    knative_version = var.knative_version
+    knative_version = "v1.14.1"
   }
 
   # the maifest at  https://github.com/knative/operator/releases/download/knative-${local.knative_version}/operator.yaml
