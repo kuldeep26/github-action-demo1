@@ -27,7 +27,6 @@ resource "terraform_data" "knative_operator_manifest" {
   }
 
   depends_on = [
-    terraform_data.verify_knative_source_images,
     kubernetes_service_account.knative_istio_controller_sa
   ]
 }
