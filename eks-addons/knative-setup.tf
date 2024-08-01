@@ -1,16 +1,3 @@
-// For Production usescase it is recommended to use cosign to verify the images
-resource "terraform_data" "verify_knative_source_images" {
-  provisioner "local-exec" {
-    command = <<EOF
-       curl -sSL https://github.com/knative/serving/releases/download/knative-v1.14.1/serving-core.yaml \
-         | grep 'gcr.io/' | awk '{print $2}' | sort | uniq \
-         | xargs -n 1 \
-           cosign verify -o text \
-             --certificate-identity=signer@knative-releases.iam.gserviceaccount.com \
-             --certificate-oidc-issuer=https://accounts.google.com
-       EOF
-  }
-}
 # Knative istio controller Service Account
 resource "kubernetes_service_account" "knative_istio_controller_sa" {
   metadata {
