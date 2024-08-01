@@ -1,17 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: istio-alb
+  name: hello-ingress
   namespace: kube-system
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    alb.ingress.kubernetes.io/subnets: subnet-0ee1dc8a8184d3c09, subnet-0b35714883ba7fc06
-    alb.ingress.kubernetes.io/security-groups: sg-0fab3556e7daf7c5f
+    alb.ingress.kubernetes.io/subnets: subnet-0a50404922345ee2a, subnet-0eea4ae7417a51425
+    alb.ingress.kubernetes.io/security-groups: sg-082099c1b3f5e1e46
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-path: /  # Path for health checks
+    alb.ingress.kubernetes.io/healthcheck-port: "8080"  # Port for health checks
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "30"  # Interval for health checks
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"  # Timeout for health checks
+    alb.ingress.kubernetes.io/healthcheck-unhealthy-threshold: "2"  # Unhealthy threshold
+    alb.ingress.kubernetes.io/healthcheck-healthy-threshold: "5"  # Healthy threshold
 spec:
   rules:
-    - host: hello.plt.syncroncloud.xyz  # Replace with your custom domain
+    - host: test.plt.syncroncloud.xyz  # Replace with your domain or leave empty for default
       http:
         paths:
           - path: /
