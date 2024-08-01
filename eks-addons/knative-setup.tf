@@ -10,7 +10,7 @@ resource "terraform_data" "verify_knative_source_images" {
              --certificate-oidc-issuer=https://accounts.google.com
        EOF
   }
-
+}
 # Knative istio controller Service Account
 resource "kubernetes_service_account" "knative_istio_controller_sa" {
   metadata {
