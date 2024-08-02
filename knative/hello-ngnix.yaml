@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello-world
+  labels:
+    name: hello-world
+
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ngnix
+  namespace: hello-world
+spec:
+  template:
+    spec:
+      containers:
+        - image: stacksimplify/kubenginx:1.0.0
+          ports:
+            - containerPort: 80
+          
