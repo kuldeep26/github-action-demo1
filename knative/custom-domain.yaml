@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: helloworld
+  labels:
+    name: helloworld
+---
+apiVersion: networking.internal.knative.dev/v1alpha1
+kind: ClusterDomainClaim
+metadata:
+  name: hello.905418229946.realhandsonlabs.net
+spec:
+  namespace: helloworld
+

@@ -27,7 +27,7 @@
 #       name: istio-ingressgateway
 #       port:
 #         number: 80
-
+####Working###
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
 # metadata:
@@ -53,6 +53,39 @@
 #               port:
 #                 number: 80
 
+# 
+####### Wroking
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: gw-ingress
+#   namespace: istio-system
+#   annotations:
+#     kubernetes.io/ingress.class: alb
+#     alb.ingress.kubernetes.io/scheme: internet-facing
+#     alb.ingress.kubernetes.io/healthcheck-path: /healthz/ready
+#     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+#     alb.ingress.kubernetes.io/backend-protocol: HTTP
+#     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - backend:
+#           service:
+#             name: istio-ingressgateway
+#             port:
+#               number: 15021
+#         path: /healthz/ready
+#         pathType: Prefix
+#       - backend:
+#           service:
+#             name: istio-ingressgateway
+#             port:
+#               number: 80
+#         path: /
+#         pathType: Prefix
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -61,7 +94,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/healthcheck-path: /healthz/ready
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
     alb.ingress.kubernetes.io/backend-protocol: HTTP
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
@@ -73,13 +105,5 @@ spec:
           service:
             name: istio-ingressgateway
             port:
-              number: 15021
-        path: /healthz/ready
-        pathType: Prefix
-      - backend:
-          service:
-            name: istio-ingressgateway
-            port:
               number: 80
-        path: /
-        pathType: Prefix
+        pathType: ImplementationSpecific
