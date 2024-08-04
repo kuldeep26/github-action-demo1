@@ -1,0 +1,13 @@
+apiVersion: serving.knative.dev/v1beta1
+kind: DomainMapping
+metadata:
+  name: 767397963763.realhandsonlabs.net
+  namespace: helloworld
+spec:
+  ref:
+    name: hello
+    kind: Service
+    apiVersion: serving.knative.dev/v1
+# tls block specifies the secret to be used
+  tls:
+    secretName: secret-tls

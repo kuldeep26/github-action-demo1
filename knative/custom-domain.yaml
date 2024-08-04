@@ -8,7 +8,7 @@ metadata:
 apiVersion: networking.internal.knative.dev/v1alpha1
 kind: ClusterDomainClaim
 metadata:
-  name: hello.905418229946.realhandsonlabs.net
+  name: 767397963763.realhandsonlabs.net
 spec:
   namespace: helloworld
 
