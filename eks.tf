@@ -35,7 +35,7 @@ resource "aws_eks_cluster" "cluster" {
 
     subnet_ids = [
       "subnet-d5b3c0a3",
-     "subnet-5311990b",
+      "subnet-5311990b",
     ]
   }
 
