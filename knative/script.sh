@@ -7,7 +7,7 @@ set -e
 
 annotate_istio_svc_with_alb_health_check() {
   local service_name="istio-ingressgateway"
-  local namespace="istio-system"
+  local namespace="istio-ingress"
 
   healthcheck_path=$(kubectl -n "${namespace}" get deployment "${service_name}" -o json | \
                      jq -r '.spec.template.spec.containers[].readinessProbe.httpGet.path')

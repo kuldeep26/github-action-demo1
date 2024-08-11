@@ -32,20 +32,8 @@ resource "helm_release" "istio-ingressgateway" {
   chart      = "gateway"
   name       = "istio-ingressgateway"
   # TODO: verify this value
-  namespace = kubernetes_namespace.istio_ingress.metadata[0].name
+  namespace = "istio-system"
   version   = local.istio_version
-
-  depends_on = [helm_release.istiod]
-}
-
-resource "kubernetes_namespace" "istio_ingress" {
-  metadata {
-    labels = {
-      istio-injection = "enabled"
-    }
-
-    name = "istio-ingress"
-  }
 
   depends_on = [helm_release.istiod]
 }
