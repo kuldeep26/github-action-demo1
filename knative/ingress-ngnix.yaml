@@ -54,37 +54,37 @@
 #                 number: 80
 
 # 
-####### Wroking
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: gw-ingress
-  namespace: istio-ingress
-  annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/healthcheck-path: /healthz/ready
-    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
-    alb.ingress.kubernetes.io/backend-protocol: HTTP
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-spec:
-  rules:
-  - http:
-      paths:
-      - backend:
-          service:
-            name: istio-ingressgateway
-            port:
-              number: 15021
-        path: /healthz/ready
-        pathType: Prefix
-      - backend:
-          service:
-            name: istio-ingressgateway
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
+####### Wroking ingress
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: gw-ingress
+#   namespace: istio-system
+#   annotations:
+#     kubernetes.io/ingress.class: alb
+#     alb.ingress.kubernetes.io/scheme: internal
+#     alb.ingress.kubernetes.io/healthcheck-path: /healthz/ready
+#     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+#     alb.ingress.kubernetes.io/backend-protocol: HTTP
+#     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - backend:
+#           service:
+#             name: istio-ingressgateway
+#             port:
+#               number: 15021
+#         path: /healthz/ready
+#         pathType: Prefix
+#       - backend:
+#           service:
+#             name: istio-ingressgateway
+#             port:
+#               number: 80
+#         path: /
+#         pathType: Prefix
 
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
@@ -107,3 +107,25 @@ spec:
 #             port:
 #               number: 80
 #         pathType: ImplementationSpecific
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-alb
+  namespace: istio-system
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-west-1:801354763506:certificate/50e3a1b4-f6a7-4171-880b-fd6b6d6ad200"
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+  - http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: istio-ingressgateway
+              port:
+                number: 80

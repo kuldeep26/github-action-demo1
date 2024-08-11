@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-08-08T13:02:44Z"
+  finalizers:
+  - service.k8s.aws/resources
+  labels:
+    app: istio-ingressgateway
+    install.operator.istio.io/owning-resource: installed-state
+    install.operator.istio.io/owning-resource-namespace: istio-system
+    istio: ingressgateway
+    istio.io/rev: default
+    operator.istio.io/component: IngressGateways
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: 1.22.0
+    release: istio
+  name: istio-ingressgateway
+  namespace: istio-system
+  resourceVersion: "7548753"
+  uid: a8e291d2-bd90-49ea-8c62-9dec648225b5
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 172.20.40.160
+  clusterIPs:
+  - 172.20.40.160
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  loadBalancerClass: service.k8s.aws/nlb
+  ports:
+  - name: status-port
+    nodePort: 30481
+    port: 15021
+    protocol: TCP
+    targetPort: 15021
+  - name: http2
+    nodePort: 31432
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    nodePort: 30992
+    port: 443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - hostname: k8s-istiosys-istioing-305cbc81d6-de4866eb915d2219.elb.eu-west-1.amazonaws.com

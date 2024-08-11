@@ -1,0 +1,196 @@
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1
+  kind: VirtualService
+  metadata:
+    annotations:
+      networking.internal.knative.dev/rollout: '{"configurations":[{"configurationName":"hello","percent":100,"revisions":[{"revisionName":"hello-00002","percent":100}],"stepParams":{}}]}'
+      networking.knative.dev/ingress.class: istio.ingress.networking.knative.dev
+      serving.knative.dev/creator: cluster-admin
+      serving.knative.dev/lastModifier: cluster-admin
+    creationTimestamp: "2024-08-08T15:11:29Z"
+    generation: 4
+    labels:
+      networking.internal.knative.dev/ingress: hello
+      serving.knative.dev/route: hello
+      serving.knative.dev/routeNamespace: helloworld
+    name: hello-ingress
+    namespace: helloworld
+    ownerReferences:
+    - apiVersion: networking.internal.knative.dev/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Ingress
+      name: hello
+      uid: 0bc0471f-2b63-407b-a00a-a143eb8835c6
+    resourceVersion: "7957211"
+    uid: bc09d456-b869-4791-9b49-cb415e80bdb4
+  spec:
+    gateways:
+    - knative-serving/knative-ingress-gateway
+    - knative-serving/knative-local-gateway
+    hosts:
+    - hello.helloworld
+    - hello.helloworld.plt.syncroncloud.team
+    - hello.helloworld.svc
+    - hello.helloworld.svc.cluster.local
+    http:
+    - headers:
+        request:
+          set:
+            K-Network-Hash: 28789aebe2300ce9914a1cb5a80255f5728a2614e86ca9cca5cc7f11a857d822
+      match:
+      - authority:
+          prefix: hello.helloworld
+        gateways:
+        - knative-serving/knative-local-gateway
+        headers:
+          K-Network-Hash:
+            exact: override
+      retries: {}
+      route:
+      - destination:
+          host: hello-00002.helloworld.svc.cluster.local
+          port:
+            number: 80
+        headers:
+          request:
+            set:
+              Knative-Serving-Namespace: helloworld
+              Knative-Serving-Revision: hello-00002
+        weight: 100
+    - match:
+      - authority:
+          prefix: hello.helloworld
+        gateways:
+        - knative-serving/knative-local-gateway
+      retries: {}
+      route:
+      - destination:
+          host: hello-00002.helloworld.svc.cluster.local
+          port:
+            number: 80
+        headers:
+          request:
+            set:
+              Knative-Serving-Namespace: helloworld
+              Knative-Serving-Revision: hello-00002
+        weight: 100
+    - headers:
+        request:
+          set:
+            K-Network-Hash: 28789aebe2300ce9914a1cb5a80255f5728a2614e86ca9cca5cc7f11a857d822
+      match:
+      - authority:
+          prefix: hello.helloworld.plt.syncroncloud.team
+        gateways:
+        - knative-serving/knative-ingress-gateway
+        headers:
+          K-Network-Hash:
+            exact: override
+      retries: {}
+      route:
+      - destination:
+          host: hello-00002.helloworld.svc.cluster.local
+          port:
+            number: 80
+        headers:
+          request:
+            set:
+              Knative-Serving-Namespace: helloworld
+              Knative-Serving-Revision: hello-00002
+        weight: 100
+    - match:
+      - authority:
+          prefix: hello.helloworld.plt.syncroncloud.team
+        gateways:
+        - knative-serving/knative-ingress-gateway
+      retries: {}
+      route:
+      - destination:
+          host: hello-00002.helloworld.svc.cluster.local
+          port:
+            number: 80
+        headers:
+          request:
+            set:
+              Knative-Serving-Namespace: helloworld
+              Knative-Serving-Revision: hello-00002
+        weight: 100
+- apiVersion: networking.istio.io/v1
+  kind: VirtualService
+  metadata:
+    annotations:
+      networking.internal.knative.dev/rollout: '{"configurations":[{"configurationName":"hello","percent":100,"revisions":[{"revisionName":"hello-00002","percent":100}],"stepParams":{}}]}'
+      networking.knative.dev/ingress.class: istio.ingress.networking.knative.dev
+      serving.knative.dev/creator: cluster-admin
+      serving.knative.dev/lastModifier: cluster-admin
+    creationTimestamp: "2024-08-08T15:11:29Z"
+    generation: 4
+    labels:
+      networking.internal.knative.dev/ingress: hello
+      serving.knative.dev/route: hello
+      serving.knative.dev/routeNamespace: helloworld
+    name: hello-mesh
+    namespace: helloworld
+    ownerReferences:
+    - apiVersion: networking.internal.knative.dev/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Ingress
+      name: hello
+      uid: 0bc0471f-2b63-407b-a00a-a143eb8835c6
+    resourceVersion: "7957208"
+    uid: 94a5413b-d2bc-44bc-8fa2-98bdacb338c4
+  spec:
+    gateways:
+    - mesh
+    hosts:
+    - hello.helloworld
+    - hello.helloworld.svc
+    - hello.helloworld.svc.cluster.local
+    http:
+    - headers:
+        request:
+          set:
+            K-Network-Hash: 28789aebe2300ce9914a1cb5a80255f5728a2614e86ca9cca5cc7f11a857d822
+      match:
+      - authority:
+          prefix: hello.helloworld
+        gateways:
+        - mesh
+        headers:
+          K-Network-Hash:
+            exact: override
+      retries: {}
+      route:
+      - destination:
+          host: hello-00002.helloworld.svc.cluster.local
+          port:
+            number: 80
+        headers:
+          request:
+            set:
+              Knative-Serving-Namespace: helloworld
+              Knative-Serving-Revision: hello-00002
+        weight: 100
+    - match:
+      - authority:
+          prefix: hello.helloworld
+        gateways:
+        - mesh
+      retries: {}
+      route:
+      - destination:
+          host: hello-00002.helloworld.svc.cluster.local
+          port:
+            number: 80
+        headers:
+          request:
+            set:
+              Knative-Serving-Namespace: helloworld
+              Knative-Serving-Revision: hello-00002
+        weight: 100
+kind: List
+metadata:
+  resourceVersion: ""
