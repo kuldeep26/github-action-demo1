@@ -1,28 +1,30 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2024-08-08T13:02:44Z"
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: "null"
+    alb.ingress.kubernetes.io/healthcheck-port: "30960"
+    meta.helm.sh/release-name: istio-ingressgateway
+    meta.helm.sh/release-namespace: istio-system
+  creationTimestamp: "2024-08-11T16:31:58Z"
   finalizers:
   - service.k8s.aws/resources
   labels:
     app: istio-ingressgateway
-    install.operator.istio.io/owning-resource: installed-state
-    install.operator.istio.io/owning-resource-namespace: istio-system
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: istio-ingressgateway
+    app.kubernetes.io/version: 1.22.0
+    helm.sh/chart: gateway-1.22.0
     istio: ingressgateway
-    istio.io/rev: default
-    operator.istio.io/component: IngressGateways
-    operator.istio.io/managed: Reconcile
-    operator.istio.io/version: 1.22.0
-    release: istio
   name: istio-ingressgateway
   namespace: istio-system
-  resourceVersion: "7548753"
-  uid: a8e291d2-bd90-49ea-8c62-9dec648225b5
+  resourceVersion: "11032"
+  uid: ff3e9a66-e944-450f-86f6-972417066c39
 spec:
   allocateLoadBalancerNodePorts: true
-  clusterIP: 172.20.40.160
+  clusterIP: 10.100.163.200
   clusterIPs:
-  - 172.20.40.160
+  - 10.100.163.200
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
@@ -31,20 +33,20 @@ spec:
   loadBalancerClass: service.k8s.aws/nlb
   ports:
   - name: status-port
-    nodePort: 30481
+    nodePort: 30960
     port: 15021
     protocol: TCP
     targetPort: 15021
   - name: http2
-    nodePort: 31432
+    nodePort: 32532
     port: 80
     protocol: TCP
-    targetPort: 8080
+    targetPort: 80
   - name: https
-    nodePort: 30992
+    nodePort: 31190
     port: 443
     protocol: TCP
-    targetPort: 8443
+    targetPort: 443
   selector:
     app: istio-ingressgateway
     istio: ingressgateway
@@ -53,4 +55,4 @@ spec:
 status:
   loadBalancer:
     ingress:
-    - hostname: k8s-istiosys-istioing-305cbc81d6-de4866eb915d2219.elb.eu-west-1.amazonaws.com
+    - hostname: k8s-istiosys-istioing-506b88fcfc-41edac992db8b1ba.elb.us-east-1.amazonaws.com

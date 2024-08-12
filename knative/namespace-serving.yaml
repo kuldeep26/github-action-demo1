@@ -8,3 +8,12 @@ kind: KnativeServing
 metadata:
   name: knative-serving
   namespace: knative-serving
+spec:
+  config:
+    domain:
+      "992382557570.realhandsonlabs.net": ""
+    istio:
+      local-gateways: |
+        - name: knative-local-gateway
+          namespace: knative-serving
+          service: knative-local-gateway.istio-system.svc.cluster.local

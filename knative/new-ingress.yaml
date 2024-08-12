@@ -2,14 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: infra-api
-  namespace: istio-ingress
+  namespace: istio-system
   labels:
     dl_app: infra-api
     environment: dev
   annotations:
-    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:339713068874:certificate/7d53c80f-be26-4a68-a29d-c87b164caf4d"
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-west-1:801354763506:certificate/50e3a1b4-f6a7-4171-880b-fd6b6d6ad200"
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=300
-    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/scheme: internal
     alb.ingress.kubernetes.io/target-type: instance
 spec:
   ingressClassName: alb

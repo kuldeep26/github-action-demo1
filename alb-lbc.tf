@@ -38,7 +38,7 @@ resource "helm_release" "loadbalancer_controller" {
 
   set {
     name  = "vpcId"
-    value = "vpc-0bae5adef96dba2e2"
+    value = "vpc-06608ea23a26a4a25"
   }
 
   set {
