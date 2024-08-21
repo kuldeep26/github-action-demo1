@@ -13,6 +13,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      id: get-istioctl
+      uses: istio/get-istioctl@main
+      with:
+        version: '1.22.2'
 
     - name: Install Cosign
       uses: sigstore/cosign-installer@v3.5.0
@@ -26,15 +30,7 @@ jobs:
       uses: azure/setup-kubectl@v3
       with:
         version: "v1.30.0"
-    - uses: ./.github/actions/get-istioctl
-      id: getit
-      with:
-        version: "1.11.*"
-    - name: Get the output time
-      run: |
-        echo "Selected version ${{ steps.getit.outputs.version }}"
-        echo "patch version ${{ steps.getit.outputs.patch }}"
-        echo "download link ${{ steps.getit.outputs.istioctl-url }}"
+
       
     - name: Set up Python
       uses: actions/setup-python@v2
