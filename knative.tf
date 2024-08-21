@@ -16,21 +16,6 @@
 # }
 
 # Knative istio controller Service Account
-resource "kubernetes_service_account" "knative_istio_controller_sa" {
-  depends_on = [
-    null_resource.knative-istio-label
-  ]
-  metadata {
-    name      = "controller"
-    namespace = "knative-serving"
-    labels = {
-      "app.kubernetes.io/component" = "controller"
-      "app.kubernetes.io/name"      = "knative-serving"
-      "app.kubernetes.io/version"   = var.knative_version
-    }
-  }
-
-}
 
 
 resource "terraform_data" "knative_operator_manifest" {
