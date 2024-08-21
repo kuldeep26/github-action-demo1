@@ -78,9 +78,9 @@ resource "terraform_data" "knative-istio-integration" {
 # }
 
 #the external ID and CNAME can also be extracted from the hekm_release.istio-ingressgateway resource
-data "kubernetes_service" "istio_ingressgateway" {
-  metadata {
-    name      = "istio-ingressgateway"
-    namespace = "istio-system"
-  }
-}
+# data "kubernetes_service" "istio_ingressgateway" {
+#   metadata {
+#     name      = "istio-ingressgateway"
+#     namespace = "istio-system"
+#   }
+# }
