@@ -26,6 +26,15 @@ jobs:
       uses: azure/setup-kubectl@v3
       with:
         version: "v1.30.0"
+    - uses: ./.github/actions/get-istioctl
+      id: getit
+      with:
+        version: "1.11.*"
+    - name: Get the output time
+      run: |
+        echo "Selected version ${{ steps.getit.outputs.version }}"
+        echo "patch version ${{ steps.getit.outputs.patch }}"
+        echo "download link ${{ steps.getit.outputs.istioctl-url }}"
       
     - name: Set up Python
       uses: actions/setup-python@v2
