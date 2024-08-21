@@ -31,7 +31,7 @@ resource "terraform_data" "knative-istio-integration" {
   }
 
   depends_on = [
-    terraform_data.istio-installation
+    null_resource.istio_installation
   ]
 }
 
