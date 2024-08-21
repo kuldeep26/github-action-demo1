@@ -4,42 +4,19 @@ locals {
   istio_version = "1.22.2"
 }
 
-resource "helm_release" "istio-base" {
-  repository       = local.istio_chart_url
-  chart            = "base"
-  name             = "istio-base"
-  namespace        = "istio-system"
-  version          = local.istio_version
-  create_namespace = true
+resource "terraform_data" "istio-installation" {
+
+  provisioner "local-exec" {
+    command = <<EOF
+            istioctl install -y
+        EOF
+  }
 
   depends_on = [
-    aws_eks_addon.core-dns,
-    terraform_data.knative_serving
+    terraform_data.knative_serving,
   ]
 }
 
-resource "helm_release" "istiod" {
-  repository = local.istio_chart_url
-  chart      = "istiod"
-  name       = "istiod"
-  namespace  = "istio-system"
-  version    = local.istio_version
-  wait       = true
-
-  depends_on = [helm_release.istio-base]
-}
-
-# TODO: make istio-ingressgateway a nodeport service to link it to AWS ALB
-resource "helm_release" "istio-ingressgateway" {
-  repository = local.istio_chart_url
-  chart      = "gateway"
-  name       = "istio-ingressgateway"
-  # TODO: verify this value
-  namespace = "istio-system"
-  version   = local.istio_version
-
-  depends_on = [helm_release.istiod]
-}
 
 /// knative istio intergration ///
 
@@ -56,8 +33,7 @@ resource "terraform_data" "knative-istio-integration" {
   }
 
   depends_on = [
-    terraform_data.knative_serving,
-    helm_release.istio-ingressgateway
+    terraform_data.istio-installation
   ]
 }
 
