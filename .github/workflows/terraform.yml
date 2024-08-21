@@ -26,11 +26,6 @@ jobs:
       uses: azure/setup-kubectl@v3
       with:
         version: "v1.30.0"
-    
-    - name: Configure kubectl and printing nodes output
-      run: |
-        aws eks update-kubeconfig --region us-east-1 --name demo
-        kubectl get nodes
       
     - name: Set up Python
       uses: actions/setup-python@v2
