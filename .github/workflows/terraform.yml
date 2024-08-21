@@ -20,7 +20,7 @@ jobs:
         cosign-release: "v2.2.4"
     - name: Check Cosgin install!
       run: cosign version
-## Disable in first deployment
+
     - name: setup Kubectl
       id: install-Kubectl
       uses: azure/setup-kubectl@v3
