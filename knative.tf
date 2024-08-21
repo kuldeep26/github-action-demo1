@@ -18,7 +18,7 @@
 # Knative istio controller Service Account
 resource "kubernetes_service_account" "knative_istio_controller_sa" {
   depends_on = [
-    kubernetes_namespace.knative-serving
+    null_resource.knative-istio-label
   ]
   metadata {
     name      = "controller"
@@ -52,17 +52,15 @@ resource "terraform_data" "knative_operator_manifest" {
   ]
 }
 
-resource "kubernetes_namespace" "knative-serving" {
+resource "null_resource" "knative-istio-label" {
+
+  provisioner "local-exec" {
+    command = "kubectl label namespace knative-serving istio-injection=enabled"
+  }
+
   depends_on = [
     terraform_data.knative_serving,
-    terraform_data.knative-istio-integration,
   ]
-  metadata {
-    name = "knative-serving"
-    labels = {
-      istio-injection = "enabled"
-    }
-  }
 }
 
 resource "terraform_data" "knative_serving" {
