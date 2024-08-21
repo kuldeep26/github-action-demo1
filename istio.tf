@@ -14,8 +14,7 @@ resource "helm_release" "istio-base" {
 
   depends_on = [
     aws_eks_addon.core-dns,
-    terraform_data.knative_serving,
-    kubernetes_namespace.knative-serving
+    terraform_data.knative_serving
     ]
 }
 

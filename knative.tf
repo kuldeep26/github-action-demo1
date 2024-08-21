@@ -53,7 +53,6 @@ resource "kubernetes_namespace" "knative-serving" {
   depends_on = [
       terraform_data.knative_serving,
       terraform_data.knative-istio-integration,
-      helm_release.istio-ingressgateway
   ]
   metadata {
     name = "knative-serving"
