@@ -11,9 +11,8 @@ resource "terraform_data" "verify_knative_source_images" {
   }
 
   depends_on = [
-    helm_release.karpenter,
-    terraform_data.execute_karpenter_nodepool_manifest,
-    terraform_data.execute_karpenter_node_class_manifest]
+    helm_release.karpenter
+    ]
 }
 
 # Knative istio controller Service Account
@@ -51,6 +50,11 @@ resource "terraform_data" "knative_operator_manifest" {
 }
 
 resource "kubernetes_namespace" "knative-serving" {
+  depends_on = [
+      terraform_data.knative_serving,
+      terraform_data.knative-istio-integration,
+      helm_release.istio-ingressgateway
+  ]
   metadata {
     name = "knative-serving"
     labels = {
@@ -65,6 +69,5 @@ resource "terraform_data" "knative_serving" {
   }
 
   depends_on = [
-    kubernetes_namespace.knative-serving,
     terraform_data.knative_operator_manifest]
 }
