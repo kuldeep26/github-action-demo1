@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "secrets-store-cni-policy" {
     }
 
     principals {
-      identifiers = [data.aws_iam_openid_connect_provider.eks-cluster-openid-provider.arn]
+      identifiers = [aws_iam_openid_connect_provider.eks.arn]
       type        = "Federated"
     }
   }
