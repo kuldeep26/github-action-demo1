@@ -4,12 +4,10 @@ locals {
   istio_version = "1.22.2"
 }
 
-resource "terraform_data" "istio-installation" {
+resource "null_resource" "istio_installation" {
 
   provisioner "local-exec" {
-    command = <<EOF
-            istioctl install -y
-        EOF
+    command = "istioctl install -y"
   }
 
   depends_on = [
