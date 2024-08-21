@@ -58,8 +58,8 @@ resource "aws_iam_role_policy_attachment" "kms-key-policy-attachment" {
 }
 
 resource "aws_iam_role" "schema-registry-role" {
-  assume_role_policy   = data.aws_iam_policy_document.secrets-store-cni-policy.json
-  name                 = "schema-registry-role"
+  assume_role_policy = data.aws_iam_policy_document.secrets-store-cni-policy.json
+  name               = "schema-registry-role"
 }
 
 resource "kubernetes_namespace" "csr-namespace" {

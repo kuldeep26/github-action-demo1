@@ -15,7 +15,7 @@ resource "helm_release" "istio-base" {
   depends_on = [
     aws_eks_addon.core-dns,
     terraform_data.knative_serving
-    ]
+  ]
 }
 
 resource "helm_release" "istiod" {
@@ -58,7 +58,7 @@ resource "terraform_data" "knative-istio-integration" {
   depends_on = [
     terraform_data.knative_serving,
     helm_release.istio-ingressgateway
-    ]
+  ]
 }
 
 //Disabling for now
