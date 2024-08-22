@@ -30,11 +30,6 @@ resource "terraform_data" "knative_operator_manifest" {
             kubectl apply -f https://github.com/knative/operator/releases/download/knative-${var.knative_version}/operator.yaml
         EOF
   }
-
-  depends_on = [
-    #    terraform_data.verify_knative_source_images,
-    aws_eks_addon.core-dns
-  ]
 }
 
 resource "null_resource" "knative-istio-label" {
