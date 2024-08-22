@@ -17,6 +17,8 @@ jobs:
           curl -L https://istio.io/downloadIstio | ISTIO_VERSION=$ISTIO_VERSION sh -
           sudo mv istio-$ISTIO_VERSION/bin/istioctl /usr/local/bin/istioctl
         shell: bash
-      - name: checking istioctl installation
+
+      - name: Check istioctl installation
         run: |
-          istioctl version
+          istioctl version --remote=false
+        shell: bash
