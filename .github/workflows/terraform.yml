@@ -63,10 +63,10 @@ jobs:
       run: |
         aws s3 ls
 
-    - name: Configure kubectl and printing nodes output
-      run: |
-        aws eks update-kubeconfig --region us-east-1 --name demo
-        kubectl get nodes
+    # - name: Configure kubectl and printing nodes output
+    #   run: |
+    #     aws eks update-kubeconfig --region us-east-1 --name demo
+    #     kubectl get nodes
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
