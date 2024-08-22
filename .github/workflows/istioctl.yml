@@ -1,4 +1,4 @@
-name: 'eks-addonss'
+name: 'istioctl'
 
 on:
   workflow_dispatch:
