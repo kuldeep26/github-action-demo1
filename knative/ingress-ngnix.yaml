@@ -116,7 +116,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:339712743075:certificate/8cb12851-e06e-4751-8425-624c3b5b72a7"
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:905418218028:certificate/500a19e3-83f9-4b61-ab41-2602db2fa940"
     alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:

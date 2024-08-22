@@ -1,0 +1,22 @@
+name: 'eks-addonss'
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install istioctl
+        run: |
+          ISTIO_VERSION="1.22.2"
+          curl -L https://istio.io/downloadIstio | ISTIO_VERSION=$ISTIO_VERSION sh -
+          sudo mv istio-$ISTIO_VERSION/bin/istioctl /usr/local/bin/istioctl
+        shell: bash
+      - name: checking istioctl installation
+        run: |
+          istioctl version
