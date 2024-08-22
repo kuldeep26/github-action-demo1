@@ -1,0 +1,17 @@
+apiVersion: networking.internal.knative.dev/v1alpha1
+kind: ClusterDomainClaim
+metadata:
+  name: {{ .Values.domain.name }}
+spec:
+  namespace: {{ .Values.namespace }}
+---
+apiVersion: serving.knative.dev/v1beta1
+kind: DomainMapping
+metadata:
+  name: {{ .Values.domain.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  ref:
+    name: {{ .Values.knativeService.name }}
+    kind: Service
+    apiVersion: serving.knative.dev/v1
