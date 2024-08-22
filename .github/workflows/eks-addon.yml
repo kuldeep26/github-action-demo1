@@ -18,6 +18,18 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.10'
+
+    - name: Install istioctl
+      run: |
+          ISTIO_VERSION="1.22.2"
+          curl -L https://istio.io/downloadIstio | ISTIO_VERSION=$ISTIO_VERSION sh -
+          sudo mv istio-$ISTIO_VERSION/bin/istioctl /usr/local/bin/istioctl
+      shell: bash
+
+    - name: Check istioctl installation
+      run: |
+          istioctl version --remote=false
+      shell: bash
           
     - name: Install aws-cli dependencies
       run: |
@@ -34,17 +46,17 @@ jobs:
     - name: List S3 buckets
       run: |
         aws s3 ls
+    
+    - name: setup Kubectl
+      id: install-Kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: "v1.30.0"    
 
-    # - name: Set up Kubectl
-    #   id: install-kubectl
-    #   uses: azure/setup-kubectl@v3
-    #   with:
-    #     version: "v1.30.0"
-
-    # - name: Configure kubectl and print nodes output
-    #   run: |
-    #     aws eks update-kubeconfig --region us-east-1 --name demo
-    #     kubectl get nodes
+    - name: Configure kubectl and print nodes output
+      run: |
+        aws eks update-kubeconfig --region us-east-1 --name demo
+        kubectl get nodes
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
