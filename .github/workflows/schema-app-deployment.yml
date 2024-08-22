@@ -66,14 +66,14 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      working-directory: eks-addons
+      working-directory: schema
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: terraform plan
 
     - name: Terraform Apply
-      working-directory: eks-addons
+      working-directory: schema
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
