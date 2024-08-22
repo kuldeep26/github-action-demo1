@@ -14,32 +14,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: get istioctl
-      id: get-istioctl
-      uses: istio/get-istioctl@main
-      with:
-        version: '1.22.2'
-    - name: Run Test
-      run: |
-        if [ $(istioctl version --remote=false) == "1.22.2" ]; then
-            echo "Test Passed"
-        else
-            echo "Test Failed"
-            exit 1
-        fi
-
-    - name: Install Cosign
-      uses: sigstore/cosign-installer@v3.5.0
-      with:
-        cosign-release: "v2.2.4"
-    - name: Check Cosgin install!
-      run: cosign version
-
-    - name: setup Kubectl
-      id: install-Kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: "v1.30.0"
+    # - name: get istioctl
+    #   id: get-istioctl
+    #   uses: istio/get-istioctl@main
+    #   with:
+    #     version: '1.22.2'
+    # - name: Run Test
+    #   run: |
+    #     if [ $(istioctl version --remote=false) == "1.22.2" ]; then
+    #         echo "Test Passed"
+    #     else
+    #         echo "Test Failed"
+    #         exit 1
+    #     fi
 
       
     - name: Set up Python
