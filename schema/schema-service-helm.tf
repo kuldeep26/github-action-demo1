@@ -1,6 +1,5 @@
 resource "helm_release" "knative_service" {
   name       = "knative-service"
-  namespace  = "helloworld"
   chart      = "./knative-helm-chart"
 
   set {
