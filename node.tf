@@ -18,6 +18,11 @@ resource "aws_iam_role_policy_attachment" "amazon-eks-worker-node-policy" {
   role       = aws_iam_role.nodes.name
 }
 
+resource "aws_iam_role_policy_attachment" "amazon-eks-cw-observability-policy" {
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  role       = aws_iam_role.nodes.name
+}
+
 resource "aws_iam_role_policy_attachment" "amazon-eks-cni-policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.nodes.name
@@ -35,8 +40,8 @@ resource "aws_eks_node_group" "private-nodes" {
   node_role_arn   = aws_iam_role.nodes.arn
 
   subnet_ids = [
-    "subnet-02399e14246b0fe33",
-    "subnet-0f9eb6e140df3d67f",
+    "subnet-08e7b428bdcea5c24",
+    "subnet-067fc63ae102ec210",
   ]
 
   capacity_type  = "ON_DEMAND"
