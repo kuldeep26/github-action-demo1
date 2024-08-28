@@ -6,6 +6,12 @@ resource "aws_eks_addon" "vpc_cni" {
   service_account_role_arn = aws_iam_role.vpc_cni.arn
 }
 
+resource "aws_eks_addon" "cloudwatch_observality" {
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "amazon-cloudwatch-observability"
+  #  resolve_conflicts_on_update = "PRESERVE"
+}
+
 resource "aws_eks_addon" "kube-proxy" {
   cluster_name  = aws_eks_cluster.cluster.name
   addon_name    = "kube-proxy"
