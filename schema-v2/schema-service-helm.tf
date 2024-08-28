@@ -12,5 +12,9 @@ resource "helm_release" "knative_service" {
     name  = "namespace"
     value = var.namespace
   }
-}
 
+  set {
+    name  = "externalSecrets.rdsPasswordKey"
+    value = data.aws_secretsmanager_secret.rds_password_secret.name
+  }
+}

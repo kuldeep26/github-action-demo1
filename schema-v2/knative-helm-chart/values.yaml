@@ -1,7 +1,7 @@
-namespace: ""
+namespace: "helloworld"
 
 domain:
-  name: world.654654632309.realhandsonlabs.net
+  name: world.975050194088.realhandsonlabs.net
 
 knativeService:
   name: hello
@@ -14,6 +14,12 @@ ingress:
   name: test-alb
   ingressClass: alb
   scheme: internet-facing
-  certificateArn: "" # This will be populated dynamically via Terraform
+  certificateArn: "" # Populated dynamically via Terraform
   targetService: istio-ingressgateway
   targetPort: 80
+
+aws:
+  region: us-east-1
+
+externalSecrets:
+  rdsPasswordKey: "" # Populated dynamically via Terraform
