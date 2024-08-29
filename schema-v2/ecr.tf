@@ -1,27 +1,30 @@
-data "aws_ecr_authorization_token" "ecr" {}
-
-resource "kubernetes_secret" "ecr_registry_secret" {
-  metadata {
-    name      = "ecr-registry-secret"
-    namespace = var.namespace
+resource "null_resource" "create_ecr_registry_secret" {
+  provisioner "local-exec" {
+    command = <<EOT
+    kubectl create secret docker-registry ecr-registry-secret \
+      --docker-server=${var.ecr_repository_url} \
+      --docker-username=AWS \
+      --docker-password=$(aws ecr get-login-password --region ${var.aws_region}) \
+      --namespace ${var.namespace}
+    EOT
   }
 
-  data = {
-    ".dockerconfigjson" = base64encode(jsonencode({
-      auths = {
-        "${var.ecr_repository_url}" = {
-          "username" = "AWS",
-          "password" = data.aws_ecr_authorization_token.ecr.authorization_token,
-          "email" = "none"
-        }
-      }
-    }))
+  triggers = {
+    always_run = "${timestamp()}"
   }
-
-  type = "kubernetes.io/dockerconfigjson"
 }
 
 variable "ecr_repository_url" {
   description = "The URL of the ECR repository"
   default     = "637423192029.dkr.ecr.us-east-1.amazonaws.com"
+}
+
+variable "aws_region" {
+  description = "The AWS region"
+  default     = "us-east-1"
+}
+
+variable "namespace" {
+  description = "The Kubernetes namespace"
+  default     = "helloworld"
 }
