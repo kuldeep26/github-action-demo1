@@ -11,7 +11,7 @@ knativeService:
     SERVICE_URL: "http://syncron.com"
 
 ingress:
-  name: test-alb
+  name: test-alb-2
   ingressClass: alb
   scheme: internet-facing
   certificateArn: "" # Populated dynamically via Terraform
