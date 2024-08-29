@@ -1,4 +1,3 @@
-# Fetch ECR authorization token using a data source
 data "aws_ecr_authorization_token" "ecr" {}
 
 resource "kubernetes_secret" "ecr_registry_secret" {
@@ -11,7 +10,9 @@ resource "kubernetes_secret" "ecr_registry_secret" {
     ".dockerconfigjson" = base64encode(jsonencode({
       auths = {
         "${var.ecr_repository_url}" = {
-          auth = data.aws_ecr_authorization_token.ecr.authorization_token
+          "username" = "AWS",
+          "password" = data.aws_ecr_authorization_token.ecr.authorization_token,
+          "email" = "none"
         }
       }
     }))
