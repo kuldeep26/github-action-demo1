@@ -1,4 +1,7 @@
 resource "helm_release" "knative_service" {
+  depend_on = [
+    helm_release.external_secret
+  ]
   name       = "knative-helm-chart"
   chart      = "./knative-helm-chart"
   namespace  = var.namespace
