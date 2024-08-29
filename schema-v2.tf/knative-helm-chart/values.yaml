@@ -1,0 +1,25 @@
+namespace: "helloworld"
+
+domain:
+  name: world.637423192029.realhandsonlabs.net
+
+knativeService:
+  name: hello
+  image: 637423192029.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1
+  minScale: 1
+  serviceEnv:
+    SERVICE_URL: "http://syncron.com"
+
+ingress:
+  name: test-alb
+  ingressClass: alb
+  scheme: internet-facing
+  certificateArn: "" # Populated dynamically via Terraform
+  targetService: istio-ingressgateway
+  targetPort: 80
+
+aws:
+  region: us-east-1
+
+externalSecrets:
+  rdsPasswordKey: "" # Populated dynamically via Terraform
