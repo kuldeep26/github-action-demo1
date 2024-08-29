@@ -18,13 +18,3 @@ variable "ecr_repository_url" {
   description = "The URL of the ECR repository"
   default     = "637423192029.dkr.ecr.us-east-1.amazonaws.com"
 }
-
-variable "aws_region" {
-  description = "The AWS region"
-  default     = "us-east-1"
-}
-
-variable "namespace" {
-  description = "The Kubernetes namespace"
-  default     = "helloworld"
-}
