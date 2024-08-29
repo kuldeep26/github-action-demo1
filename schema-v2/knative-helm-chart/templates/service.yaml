@@ -20,3 +20,5 @@ spec:
           env:
             - name: SERVICE
               value: "{{ .Values.knativeService.serviceEnv.SERVICE_URL }}"
+      imagePullSecrets:
+        - name: ecr-registry-secret
