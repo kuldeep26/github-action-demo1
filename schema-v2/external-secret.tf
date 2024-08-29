@@ -1,10 +1,10 @@
-resource "helm_release" "external_secrets" {
-  name       = "external-secrets"
-  repository = "https://charts.external-secrets.io"
-  chart      = "external-secrets"
-  namespace  = var.namespace
+# resource "helm_release" "external_secrets" {
+#   name       = "external-secrets"
+#   repository = "https://charts.external-secrets.io"
+#   chart      = "external-secrets"
+#   namespace  = var.namespace
 
-}
+# }
 
 data "aws_secretsmanager_secret" "rds_password" {
   name = "rds-password" # Adjust the name according to your setup
