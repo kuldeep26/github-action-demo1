@@ -2,6 +2,7 @@ resource "helm_release" "knative_service" {
   name       = "knative-helm-chart"
   chart      = "./knative-helm-chart"
   namespace  = var.namespace
+  create_namespace = true
 
   set {
     name  = "ingress.certificateArn"
@@ -26,5 +27,5 @@ resource "helm_release" "knative_service" {
   depends_on = [
     helm_release.external_secret
   ]
-  
+
 }
