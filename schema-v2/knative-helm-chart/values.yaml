@@ -1,7 +1,7 @@
 namespace: "helloworld"
 
 domain:
-  name: world.637423192029.realhandsonlabs.net
+  name: world.590184049425.realhandsonlabs.net
 
 knativeService:
   name: hello
@@ -21,5 +21,5 @@ ingress:
 aws:
   region: us-east-1
 
-# externalSecrets:
-#   rdsPasswordKey: "" # Populated dynamically via Terraform
+externalSecrets:
+  rdsPasswordKey: "" # Populated dynamically via Terraform
