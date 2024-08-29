@@ -1,14 +1,14 @@
 resource "helm_release" "external_secret" {
-  name       = "external-secrets"
-  repository = "https://charts.external-secrets.io"
-  chart      = "external-secrets"
-  namespace  = "external-secrets"
+  name             = "external-secrets"
+  repository       = "https://charts.external-secrets.io"
+  chart            = "external-secrets"
+  namespace        = "external-secrets"
   create_namespace = true
 
 }
 
-data "aws_secretsmanager_secret" "rds_password" {
-  name = "rds-password" # Adjust the name according to your setup
+data "aws_secretsmanager_secret" "rds_master_password" {
+  arn = aws_db_instance.mydb.master_user_secret[0].secret_arn
 }
 
 # resource "helm_release" "knative_helm_chart" {
