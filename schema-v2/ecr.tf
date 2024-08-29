@@ -1,6 +1,7 @@
 resource "null_resource" "create_ecr_registry_secret" {
   provisioner "local-exec" {
     command = <<EOT
+    aws ecr get-login-password --region us-east-1 | \
     kubectl create secret docker-registry ecr-registry-secret \
       --docker-server=${var.ecr_repository_url} \
       --docker-username=AWS \
