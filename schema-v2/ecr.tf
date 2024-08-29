@@ -1,10 +1,12 @@
-data "external" "create_ecr_registry_secret" {
-  program = ["bash", "${path.module}/script/create-ecr-secret.sh"]
+resource "null_resource" "create_ecr_registry_secret" {
+  provisioner "local-exec" {
+    command = <<EOT
+      bash ${path.module}/script/create-ecr-secret.sh "${var.aws_region}" "${var.ecr_repository_url}" "${var.namespace}"
+    EOT
+  }
 
-  query = {
-    aws_region         = var.aws_region
-    ecr_repository_url = var.ecr_repository_url
-    namespace          = var.namespace
+  triggers = {
+    always_run = "${timestamp()}"
   }
 }
 
