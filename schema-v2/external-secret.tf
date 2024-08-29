@@ -11,6 +11,10 @@ data "aws_secretsmanager_secret" "rds_master_password" {
   arn = aws_db_instance.mydb.master_user_secret[0].secret_arn
 }
 
+data "aws_secretsmanager_secret_version" "rds_master_password_version" {
+  secret_id = data.aws_secretsmanager_secret.rds_master_password.id
+}
+
 # resource "helm_release" "knative_helm_chart" {
 #   name       = "knative-service"
 #   chart      = "./knative-helm-chart"
