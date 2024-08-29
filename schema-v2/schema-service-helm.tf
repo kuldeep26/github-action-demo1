@@ -16,7 +16,7 @@ resource "helm_release" "knative_service" {
 
   set {
     name  = "externalSecrets.rdsPasswordKey"
-    value = data.aws_secretsmanager_secret.rds_master_password.name
+    value = local.rds_secret_name
   }
 
   set {
@@ -31,7 +31,6 @@ resource "helm_release" "knative_service" {
 
   depends_on = [
     helm_release.external_secret,
-    aws_db_instance.mydb,
     null_resource.create_ecr_registry_secret
   ]
 

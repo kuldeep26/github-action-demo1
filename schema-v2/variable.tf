@@ -9,3 +9,7 @@ variable "aws_region" {
 variable "knative_service_image" {
   default = "891377368990.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1"
 }
+
+variable "rds_instance_name" {
+  default = "testkcc"
+}

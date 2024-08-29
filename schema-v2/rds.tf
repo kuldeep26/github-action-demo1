@@ -5,7 +5,7 @@ resource "aws_db_instance" "mydb" {
   db_subnet_group_name            = "rds_subnet"
   engine                          = "postgres"
   engine_version                  = "15.5"
-  identifier                      = "testkc"
+  identifier                      = var.rds_instance_name
   instance_class                  = "db.t3.micro"
   multi_az                        = false
   db_name                         = "testtrs"
@@ -29,3 +29,14 @@ resource "aws_cloudwatch_log_group" "rds_cw_log" {
   name              = "/aws/rds/instance/testkc/postgresql"
   retention_in_days = 14
 }
+
+resource "null_resource" "fetch_rds_secret" {
+  provisioner "local-exec" {
+    command = "bash ${path.module}/script/ fetch_rds_secret.sh ${var.rds_instance_name}"
+  }
+}
+
+locals {
+  rds_secret_name = env("RDS_SECRET_NAME")
+}
+
