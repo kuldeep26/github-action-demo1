@@ -8,10 +8,12 @@ resource "helm_release" "external_secret" {
 }
 
 data "aws_secretsmanager_secret" "rds_master_password" {
+  depends_on = [aws_db_instance.mydb]
   arn = aws_db_instance.mydb.master_user_secret[0].secret_arn
 }
 
 data "aws_secretsmanager_secret_version" "rds_master_password_version" {
+  depends_on = [aws_db_instance.mydb]
   secret_id = data.aws_secretsmanager_secret.rds_master_password.id
 }
 
