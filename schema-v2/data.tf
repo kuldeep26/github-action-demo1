@@ -2,6 +2,8 @@ data "aws_eks_cluster" "platform-compute-cluster" {
   name = "demo"
 }
 
+##
+
 data "tls_certificate" "eks-cluster-certificate" {
   url = data.aws_eks_cluster.platform-compute-cluster.identity[0].oidc[0].issuer
 }
