@@ -2,9 +2,9 @@ data "external" "create_ecr_registry_secret" {
   program = ["bash", "${path.module}/script/create-ecr-secret.sh"]
 
   query = {
-    aws_region           = var.aws_region
-    ecr_repository_url   = var.ecr_repository_url
-    namespace            = var.namespace
+    aws_region         = var.aws_region
+    ecr_repository_url = var.ecr_repository_url
+    namespace          = var.namespace
   }
 }
 
