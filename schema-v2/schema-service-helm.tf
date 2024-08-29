@@ -24,6 +24,11 @@ resource "helm_release" "knative_service" {
     value = var.aws_region
   }
 
+  set {
+    name  = "knativeService.image"
+    value = "590184049425.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1"
+  }
+
   depends_on = [
     helm_release.external_secret
   ]
