@@ -11,7 +11,3 @@ data "tls_certificate" "eks-cluster-certificate" {
 data "aws_iam_openid_connect_provider" "eks-cluster-openid-provider" {
   url = data.tls_certificate.eks-cluster-certificate.url
 }
-
-data "aws_secretsmanager_secret" "rds_password_secret" {
-  name = "rds-password"
-}
