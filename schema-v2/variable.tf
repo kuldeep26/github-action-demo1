@@ -1,5 +1,5 @@
 variable "namespace" {
-  default     = "helloworld"
+  default     = "hello-world"
 }
 
 variable "aws_region" {

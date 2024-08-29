@@ -1,4 +1,4 @@
-namespace: "helloworld"
+namespace: "hello-world"
 
 domain:
   name: world.590184049425.realhandsonlabs.net
