@@ -31,7 +31,8 @@ resource "helm_release" "knative_service" {
 
   depends_on = [
     helm_release.external_secret,
-    aws_db_instance.mydb
+    aws_db_instance.mydb,
+    null_resource.create_ecr_registry_secret
   ]
 
 }
