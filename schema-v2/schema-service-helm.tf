@@ -1,5 +1,5 @@
 resource "helm_release" "knative_service" {
-  name       = "knative-service"
+  name       = "knative-helm-chart"
   chart      = "./knative-helm-chart"
   namespace  = var.namespace
 
