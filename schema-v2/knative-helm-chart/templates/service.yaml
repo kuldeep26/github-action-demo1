@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: {{ .Values.knativeService.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/min-scale: "{{ .Values.knativeService.minScale }}"
+    spec:
+      containers:
+        - image: {{ .Values.knativeService.image }}
+          ports:
+            - containerPort: 80
+          name: ngnix
+          envFrom:
+            - secretRef:
+                name: secret-to-be-created
+          env:
+            - name: SERVICE
+              value: "{{ .Values.knativeService.serviceEnv.SERVICE_URL }}"

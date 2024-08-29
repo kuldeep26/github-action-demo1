@@ -5,7 +5,7 @@ domain:
 
 knativeService:
   name: hello
-  image: 637423192029.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1
+  image: stacksimplify/kubenginx:1.0.0
   minScale: 1
   serviceEnv:
     SERVICE_URL: "http://syncron.com"
