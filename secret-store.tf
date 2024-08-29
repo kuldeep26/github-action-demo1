@@ -1,5 +1,5 @@
 locals {
-  namespace = "helloworld"
+  namespace = "hello-world"
 }
 
 data "aws_iam_policy_document" "secrets-store-cni-policy-document" {
