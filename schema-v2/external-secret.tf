@@ -4,10 +4,6 @@ resource "helm_release" "external_secrets" {
   chart      = "external-secrets"
   namespace  = var.namespace
 
-  set {
-    name  = "createNamespace"
-    value = "true"
-  }
 }
 
 data "aws_secretsmanager_secret" "rds_password" {

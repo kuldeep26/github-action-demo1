@@ -1,11 +1,11 @@
 namespace: "helloworld"
 
 domain:
-  name: world.975050194088.realhandsonlabs.net
+  name: world.637423192029.realhandsonlabs.net
 
 knativeService:
   name: hello
-  image: 975050194088.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1
+  image: 637423192029.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1
   minScale: 1
   serviceEnv:
     SERVICE_URL: "http://syncron.com"
@@ -22,4 +22,4 @@ aws:
   region: us-east-1
 
 externalSecrets:
-  rdsPasswordKey: "rds-password-key" # Populated dynamically via Terraform
+  rdsPasswordKey: "" # Populated dynamically via Terraform

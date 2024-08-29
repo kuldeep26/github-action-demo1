@@ -21,5 +21,5 @@ resource "kubernetes_secret" "ecr_registry_secret" {
 
 variable "ecr_repository_url" {
   description = "The URL of the ECR repository"
-  default     = "975050194088.dkr.ecr.us-east-1.amazonaws.com"
+  default     = "637423192029.dkr.ecr.us-east-1.amazonaws.com"
 }
