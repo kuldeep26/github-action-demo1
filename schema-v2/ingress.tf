@@ -33,11 +33,6 @@ data "aws_lb" "alb" {
   name = kubernetes_ingress.alb_ingress.metadata[0].name
 }
 
-data "aws_route53_zone" "domain" {
-  name         = "*.851725180020.realhandsonlabs.net"
-  private_zone = false
-}
-
 resource "aws_route53_record" "dns_record" {
   depends_on = [
     kubernetes_ingress.alb_ingress
