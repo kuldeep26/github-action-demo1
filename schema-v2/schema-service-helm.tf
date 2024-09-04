@@ -2,13 +2,13 @@ resource "helm_release" "knative_service" {
   name      = "knative-helm-chart"
   chart     = "./knative-helm-chart"
   namespace = var.namespace
-  version    = "1.2.0"
+  version   = "1.2.0"
   #  create_namespace = true
 
-  set {
-    name  = "ingress.certificateArn"
-    value = aws_acm_certificate.configurator_cert.arn
-  }
+  # set {
+  #   name  = "ingress.certificateArn"
+  #   value = aws_acm_certificate.configurator_cert.arn
+  # }
 
   set {
     name  = "namespace"
