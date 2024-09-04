@@ -17,11 +17,11 @@ resource "kubernetes_ingress" "alb_ingress" {
     rule {
       http {
         path {
+          path = "/"
           backend {
             service_name = "istio-ingressgateway"
             service_port = 80
           }
-          path = "/"
           # PathType is not directly supported in Terraform.
           # This is for illustrative purposes, and you'd need to manage this aspect directly in Kubernetes YAML if needed.
         }
