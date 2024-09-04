@@ -6,7 +6,7 @@ resource "kubernetes_ingress" "alb_ingress" {
     name      = "test-alb-2"
     namespace = "istio-system"
     annotations = {
-      "kubernetes.io/ingress.class"               = "alb"
+      "ingress_class_name"                        = "alb"
       "alb.ingress.kubernetes.io/scheme"          = "internet-facing"
       "alb.ingress.kubernetes.io/certificate-arn" = aws_acm_certificate.configurator_cert.arn
       "alb.ingress.kubernetes.io/target-type"     = "ip"
