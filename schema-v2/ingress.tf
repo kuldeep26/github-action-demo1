@@ -1,4 +1,4 @@
-resource "kubernetes_ingress" "alb_ingress" {
+  resource "kubernetes_ingress_v1" "alb_ingress" {
   depends_on = [
     helm_release.knative_service
   ]
@@ -18,24 +18,28 @@ resource "kubernetes_ingress" "alb_ingress" {
       http {
         path {
           backend {
-            service_name = "istio-ingressgateway"
-            service_port = "80"
+            service {
+              name = "istio-ingressgateway"
+              port {
+                number = 80
+              }
+            }
           }
           path = "/"
+          path_type = "Prefix"
         }
       }
     }
   }
 }
 
-
 data "aws_lb" "alb" {
-  name = kubernetes_ingress.alb_ingress.metadata[0].name
+  name = kubernetes_ingress_v1.alb_ingress.metadata[0].name
 }
 
 resource "aws_route53_record" "dns_record" {
   depends_on = [
-    kubernetes_ingress.alb_ingress
+    kubernetes_ingress_v1.alb_ingress
   ]
   zone_id         = data.aws_route53_zone.domain.zone_id
   name            = "*.593546282661.realhandsonlabs.net"

@@ -1,23 +1,23 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: helloworld
-  labels:
-    name: helloworld
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: hello-world
+#   labels:
+#     name: hello-world
 ---
 apiVersion: networking.internal.knative.dev/v1alpha1
 kind: ClusterDomainClaim
 metadata:
-  name: abc.654654632309.realhandsonlabs.net
+  name: abc.593546282661.realhandsonlabs.net
 spec:
-  namespace: helloworld
+  namespace: hello-world
 
 ---
 apiVersion: serving.knative.dev/v1beta1
 kind: DomainMapping
 metadata:
-  name: abc.654654632309.realhandsonlabs.net
-  namespace: helloworld
+  name: abc.593546282661.realhandsonlabs.net
+  namespace: hello-world
 spec:
   ref:
     name: hello
@@ -28,7 +28,7 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: hello
-  namespace: helloworld
+  namespace: hello-world
 spec:
   template:
     metadata:
@@ -36,13 +36,13 @@ spec:
         autoscaling.knative.dev/min-scale: "1"
     spec:
       containers:
-        - image: "654654632309.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1"
+        - image: "593546282661.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1"
           ports:
             - containerPort: 80
-          name: ngnix
-          # envFrom:
-          #   - secretRef:
-          #       name: secret-to-be-created
+          name: abc
+          envFrom:
+            - secretRef:
+                name: secret-to-be-created
           env:
             - name: SERVICE
               value: "http://syncron.com"
