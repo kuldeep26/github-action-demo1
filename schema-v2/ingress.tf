@@ -6,7 +6,7 @@ resource "kubernetes_ingress" "alb_ingress" {
     name      = "test-alb-2"
     namespace = "istio-system"
     annotations = {
-      "ingress_class_name"                        = "alb"
+      "kubernetes.io/ingress.class"               = "alb"
       "alb.ingress.kubernetes.io/scheme"          = "internet-facing"
       "alb.ingress.kubernetes.io/certificate-arn" = aws_acm_certificate.configurator_cert.arn
       "alb.ingress.kubernetes.io/target-type"     = "ip"
@@ -17,13 +17,11 @@ resource "kubernetes_ingress" "alb_ingress" {
     rule {
       http {
         path {
-          path = "/"
           backend {
             service_name = "istio-ingressgateway"
-            service_port = 80
+            service_port = "80"
           }
-          # PathType is not directly supported in Terraform.
-          # This is for illustrative purposes, and you'd need to manage this aspect directly in Kubernetes YAML if needed.
+          path = "/"
         }
       }
     }
