@@ -33,22 +33,27 @@
   }
 }
 
-data "aws_lb" "alb" {
-  name = kubernetes_ingress_v1.alb_ingress.metadata[0].name
+data "kubernetes_ingress_v1" "alb_ingress_status" {
+  metadata {
+    name      = kubernetes_ingress_v1.alb_ingress.metadata[0].name
+    namespace = kubernetes_ingress_v1.alb_ingress.metadata[0].namespace
+  }
 }
 
-resource "aws_route53_record" "dns_record" {
-  depends_on = [
-    kubernetes_ingress_v1.alb_ingress
-  ]
-  zone_id         = data.aws_route53_zone.domain.zone_id
-  name            = "*.593546282661.realhandsonlabs.net"
-  type            = "A"
-  allow_overwrite = false
+# Fetch the ALB details, including the hosted zone ID
+data "aws_lb" "alb" {
+  dns_name = data.kubernetes_ingress_v1.alb_ingress_status.status[0].load_balancer.ingress[0].hostname
+}
+
+# Create the Route 53 alias record pointing to the ALB
+resource "aws_route53_record" "alb_alias" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "*.593546282661.realhandsonlabs.net"
+  type    = "A"  # Alias records must use type "A" or "AAAA"
 
   alias {
-    name                   = data.aws_lb.alb.dns_name
-    zone_id                = data.aws_lb.alb.zone_id
-    evaluate_target_health = true
+    name                   = data.kubernetes_ingress_v1.alb_ingress_status.status[0].load_balancer.ingress[0].hostname
+    zone_id                = data.aws_lb.alb.zone_id  # Use the ALB's hosted zone ID
+    evaluate_target_health = false
   }
 }
