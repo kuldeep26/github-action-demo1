@@ -61,16 +61,16 @@
 #   type    = "A"  # Alias records must use type "A" or "AAAA"
 
 #   alias {
-#     name                   = kubernetes_ingress_v1.alb_ingress.status.0.load_balancer.0.ingress.0.hostname
-#     zone_id                = data.aws_route53_zone.domain.zone_id  # Use the ALB's hosted zone ID
+#     name                   = data.aws_lb.alb.dns_name
+#     zone_id                = data.aws_lb.alb.zone_id # Use the ALB's hosted zone ID
 #     evaluate_target_health = false
 #   }
 # }
 
-# resource "aws_route53_record" "alb_cname" {
-#   zone_id = data.aws_route53_zone.domain.zone_id  # Your Route 53 hosted zone ID
-#   name    = "*.593546282661.realhandsonlabs.net"                    # Your domain name
-#   type    = "CNAME"
-#   ttl     = 300                            # Time to live (TTL) for the record
-#   records = [data.aws_lb.alb.dns_name]     # ALB DNS name
-# }
+resource "aws_route53_record" "alb_cname" {
+  zone_id = data.aws_route53_zone.domain.zone_id  # Your Route 53 hosted zone ID
+  name    = "*.593546282661.realhandsonlabs.net"                    # Your domain name
+  type    = "CNAME"
+  ttl     = 300                            # Time to live (TTL) for the record
+  records = [kubernetes_ingress_v1.alb_ingress.status.0.load_balancer.0.ingress.0.hostname]     # ALB DNS name
+}
