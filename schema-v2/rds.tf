@@ -1,5 +1,8 @@
 resource "aws_db_instance" "mydb" {
-  depends_on                  = [aws_cloudwatch_log_group.rds_cw_log]
+  depends_on                  = [
+      aws_cloudwatch_log_group.rds_cw_log,
+      null_resource.create_ecr_registry_secret
+      ]
   allocated_storage           = 10 # gigabytes
   backup_retention_period     = 7  # in days
   db_subnet_group_name        = "rds_subnet"

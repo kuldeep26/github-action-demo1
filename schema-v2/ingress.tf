@@ -38,7 +38,7 @@ resource "aws_route53_record" "dns_record" {
     kubernetes_ingress.alb_ingress
   ]
   zone_id         = data.aws_route53_zone.domain.zone_id
-  name            = "*.851725180020.realhandsonlabs.net"
+  name            = "*.593546282661.realhandsonlabs.net"
   type            = "A"
   allow_overwrite = false
 
