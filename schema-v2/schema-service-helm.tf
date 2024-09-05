@@ -2,7 +2,7 @@ resource "helm_release" "knative_service" {
   name      = "knative-helm-chart"
   chart     = "./knative-helm-chart"
   namespace = var.namespace
-  version   = "1.2.0"
+  version   = "1.2.1"
   #  create_namespace = true
 
   # set {

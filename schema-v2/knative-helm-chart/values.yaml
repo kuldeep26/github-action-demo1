@@ -1,7 +1,7 @@
 namespace: "hello-world"
 
 domain:
-  name: test.593546282661.realhandsonlabs.net
+  name: test.637423660652.realhandsonlabs.net
 
 knativeService:
   name: hello

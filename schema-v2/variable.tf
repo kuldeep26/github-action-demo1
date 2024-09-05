@@ -7,7 +7,7 @@ variable "aws_region" {
 }
 
 variable "knative_service_image" {
-  default = "593546282661.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1"
+  default = "637423660652.dkr.ecr.us-east-1.amazonaws.com/ngnix-knative:1.2.1"
 }
 
 variable "rds_instance_name" {
