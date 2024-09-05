@@ -20,14 +20,14 @@ metadata:
   namespace: hello-world
 spec:
   ref:
-    name: hello
+    name: hello-abc
     kind: Service
     apiVersion: serving.knative.dev/v1
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: hello
+  name: hello-abc
   namespace: hello-world
 spec:
   template:
