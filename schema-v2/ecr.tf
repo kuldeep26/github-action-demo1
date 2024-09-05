@@ -10,5 +10,5 @@ resource "null_resource" "create_ecr_registry_secret" {
 
 variable "ecr_repository_url" {
   description = "The URL of the ECR repository"
-  default     = "891377368990.dkr.ecr.us-east-1.amazonaws.com"
+  default     = "593546282661.dkr.ecr.us-east-1.amazonaws.com"
 }
