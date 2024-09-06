@@ -1,7 +1,3 @@
-locals {
-  namespace = "hello-world"
-}
-
 data "aws_iam_policy_document" "ecr-cni-policy-document" {
   statement {
 
