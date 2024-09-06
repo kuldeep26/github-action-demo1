@@ -7,8 +7,8 @@ resource "aws_eks_addon" "vpc_cni" {
 }
 
 resource "aws_eks_addon" "cloudwatch_observality" {
-  cluster_name  = aws_eks_cluster.cluster.name
-  addon_name    = "amazon-cloudwatch-observability"
+  cluster_name = aws_eks_cluster.cluster.name
+  addon_name   = "amazon-cloudwatch-observability"
   #  resolve_conflicts_on_update = "PRESERVE"
 }
 

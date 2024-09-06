@@ -1,17 +1,19 @@
 data "aws_iam_policy_document" "ecr-cni-policy-document" {
   statement {
-
     actions = [
-      "ecr:*"
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
+      "ecr:PutImage"
     ]
     effect = "Allow"
-    // TODO: Fine tune the configuration
     resources = ["*"]
     sid       = "ECRauth"
   }
 
   version = "2012-10-17"
 }
+
 
 
 resource "aws_iam_policy" "ecr-secrets-store-cni-policy" {
