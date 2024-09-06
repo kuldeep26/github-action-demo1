@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "ecr-secrets-store-cni-policy-attachme
 }
 
 resource "aws_iam_role" "ecr-schema-registry-role" {
-  assume_role_policy = data.aws_iam_policy_document.ecr-cni-policy-document.json
+  assume_role_policy = data.aws_iam_policy_document.ecr-secrets-store-cni-policy.json
   name               = "ecr-registry-role"
 }
 
