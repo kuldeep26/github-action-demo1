@@ -1,16 +1,16 @@
-resource "null_resource" "create_ecr_registry_secret" {
-  provisioner "local-exec" {
-    command = "bash ${path.module}/script/create-ecr-secret.sh ${var.aws_region} ${var.ecr_repository_url} ${var.namespace}"
-  }
+# resource "null_resource" "create_ecr_registry_secret" {
+#   provisioner "local-exec" {
+#     command = "bash ${path.module}/script/create-ecr-secret.sh ${var.aws_region} ${var.ecr_repository_url} ${var.namespace}"
+#   }
 
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-}
+#   triggers = {
+#     always_run = "${timestamp()}"
+#   }
+# }
 
 variable "ecr_repository_url" {
   description = "The URL of the ECR repository"
-  default     = "637423660652.dkr.ecr.us-east-1.amazonaws.com"
+  default     = "654654326569.dkr.ecr.us-east-1.amazonaws.com"
 }
 
 ///////// Test ///////////

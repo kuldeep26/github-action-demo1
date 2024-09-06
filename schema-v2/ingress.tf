@@ -69,7 +69,7 @@ resource "kubernetes_ingress_v1" "alb_ingress" {
 
 resource "aws_route53_record" "alb_cname" {
   zone_id = data.aws_route53_zone.domain.zone_id  # Your Route 53 hosted zone ID
-  name    = "*.637423660652.realhandsonlabs.net"                    # Your domain name
+  name    = "*.654654326569.realhandsonlabs.net"                    # Your domain name
   type    = "CNAME"
   ttl     = 300                            # Time to live (TTL) for the record
   records = [kubernetes_ingress_v1.alb_ingress.status.0.load_balancer.0.ingress.0.hostname]     # ALB DNS name
