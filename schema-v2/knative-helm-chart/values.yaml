@@ -21,21 +21,6 @@ knativeService:
 externalSecrets:
   rdsPasswordKey: "" # Populated dynamically via Terraform
 
-## ecr external secret
 aws:
   region: us-east-1
-  ecrSecretKey: ecr-secret-key
-
-clusterSecretStore:
-  name: ecr-secret-store
-  serviceAccountName: external-ecr-sa
-
-ecr:
-  host: 654654326569.dkr.ecr.us-east-1.amazonaws.com
-  password: stdin
-externalSecret:
-  name: ecr-token-secret
-  refreshInterval: 5h
-  targetSecretName: ecr-secret
-iamRoleArn: arn:aws:iam::123456789012:role/your-role
 
