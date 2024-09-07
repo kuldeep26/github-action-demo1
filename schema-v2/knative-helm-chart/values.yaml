@@ -36,6 +36,6 @@ ecr:
 externalSecret:
   name: ecr-token-secret
   refreshInterval: 5h
-  targetSecretName: ecr-docker-secret
+  targetSecretName: ecr-secret
 iamRoleArn: arn:aws:iam::123456789012:role/your-role
 

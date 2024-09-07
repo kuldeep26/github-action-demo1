@@ -2,6 +2,7 @@ apiVersion: generators.external-secrets.io/v1alpha1
 kind: ECRAuthorizationToken
 metadata:
   name: ecr-gen
+  namespace: hello-world
 spec:
   # specify aws region (mandatory)
   region: us-east-1
