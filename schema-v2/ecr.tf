@@ -10,7 +10,7 @@
 
 variable "ecr_repository_url" {
   description = "The URL of the ECR repository"
-  default     = "654654326569.dkr.ecr.us-east-1.amazonaws.com"
+  default     = "975049981142.dkr.ecr.us-east-1.amazonaws.com"
 }
 
 ///////// Test ///////////
@@ -22,12 +22,12 @@ data "aws_ecr_repository" "example" {
 }
 
 # Fetch image information using the image tag (e.g., "latest")
-data "aws_ecr_image" "example" {
-  repository_name = data.aws_ecr_repository.example.name
-  image_tag       = "1.2.1" # You must specify the correct image tag that exists in the repository
-}
+# data "aws_ecr_image" "example" {
+#   repository_name = data.aws_ecr_repository.example.name
+#   image_tag       = "1.2.1" # You must specify the correct image tag that exists in the repository
+# }
 
-# Output the image digest
-output "ecr_image_digest" {
-  value = data.aws_ecr_image.example.image_digest
-}
+# # Output the image digest
+# output "ecr_image_digest" {
+#   value = data.aws_ecr_image.example.image_digest
+# }
