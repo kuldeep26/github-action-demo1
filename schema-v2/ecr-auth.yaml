@@ -1,0 +1,15 @@
+apiVersion: generators.external-secrets.io/v1alpha1
+kind: ECRAuthorizationToken
+metadata:
+  name: ecr-gen
+spec:
+  # specify aws region (mandatory)
+  region: us-east-1
+
+  # choose an authentication strategy
+  # if no auth strategy is defined it falls back to using
+  # credentials from the environment of the controller.
+  auth:
+    jwt:
+      serviceAccountRef:
+        name: "ecr-registry-service-account"
