@@ -23,7 +23,7 @@ resource "aws_db_instance" "mydb" {
   deletion_protection         = false
   final_snapshot_identifier   = "final-snapshot"
   #  snapshot_identifier             = "test-trs-1"
-  vpc_security_group_ids          = ["sg-03a5ad18b1bcc96b3", ]
+  vpc_security_group_ids          = ["sg-086347b33000298fe", ]
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
 }
 

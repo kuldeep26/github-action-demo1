@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "configurator_cert" {
-  domain_name       = "*.975049981142.realhandsonlabs.net"
+  domain_name       = "*.767397668494.realhandsonlabs.net"
   validation_method = "DNS"
 }
 
@@ -29,6 +29,6 @@ resource "aws_route53_record" "configurator_cert_validation" {
 }
 
 data "aws_route53_zone" "domain" {
-  name         = "975049981142.realhandsonlabs.net"
+  name         = "767397668494.realhandsonlabs.net"
   private_zone = false
 }

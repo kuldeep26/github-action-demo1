@@ -10,7 +10,7 @@
 
 variable "ecr_repository_url" {
   description = "The URL of the ECR repository"
-  default     = "975049981142.dkr.ecr.us-east-1.amazonaws.com"
+  default     = "767397668494.dkr.ecr.us-east-1.amazonaws.com"
 }
 
 ///////// Test ///////////
