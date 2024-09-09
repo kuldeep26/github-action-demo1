@@ -1,7 +1,7 @@
 resource "kubernetes_ingress_v1" "alb_ingress" {
-  depends_on = [
-    helm_release.knative_service
-  ]
+#   depends_on = [
+#     helm_release.knative_service
+#   ]
   metadata {
     name      = "test-alb-2"
     namespace = "istio-system"
